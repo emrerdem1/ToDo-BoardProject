@@ -45,6 +45,7 @@ function App() {
 
   const addBoard = (board) => {
     db.collection("boards").add(board);
+    getBoards();
   };
 
   return (
@@ -108,6 +109,7 @@ function App() {
         }) => {
           return (
             <div key={id}>
+              <hr />
               <p>Title: {title} </p>
               <p>Subtitle: {subtitle}</p>
               <p>Assignee: {assignee}</p>
