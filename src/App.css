@@ -1,4 +1,5 @@
 .App {
+  margin-top: 1rem;
   text-align: center;
 }
 
@@ -35,4 +36,12 @@
   to {
     transform: rotate(360deg);
   }
+}
+.cards{
+  display: flex;
+  margin-top: 1rem;
+}
+.card{
+  border: 1px solid black;
+  width: 33%;
 }
