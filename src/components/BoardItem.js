@@ -1,14 +1,51 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
-import db from "./firebaseConfig";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
+import db from "./../firebaseConfig";
+import EditBoardItem from './EditBoardItem';
 
-const BoardItem = (props) => {
-  console.log(props);
+const BoardItem = ({ boardItem, boardId }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  console.log(boardItem)
+
+  // const updateBoardItem = id => {
+
+  //   db.collection("boards").doc(boardId).collection("boardItems").doc(id).set({
+  //     ...boardItem,
+  //     title: 'test5'
+  //   });
+  // };
+  const deleteBoardItem = id => {
+    db.collection("boards").doc(boardId).collection("boardItems").doc(id).delete();
+  };
+
+  const handleOpenModal = boardItem => {
+    setShowModal(true);
+    setSelectedItem({ ...boardItem });
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedItem(null);
+  };
+
   return (
-    <div className="general-board">
-      <h1>Atom Board</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <React.Fragment>
+      {showModal && <EditBoardItem isOpen={showModal} closeModal={handleCloseModal} selectedItem={selectedItem} />}
+      <div className="board-item">
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <h6>id: {boardItem.id}</h6>
+          <button onClick={() => handleOpenModal(boardItem)}>düzenle</button>
+          <button onClick={() => deleteBoardItem(boardItem.id)}>sil</button>
+        </div>
+        {boardItem.title &&
+          <div>
+            <p>title: {boardItem.title}</p>
+            <p>subtitle: {boardItem.subtitle}</p>
+            <p>assignee: {boardItem.assignee}</p>
+          </div>
+        }
+        {/* <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="title">Title: </label>
         <input name="title" ref={register({ required: true })} />
         <br />
@@ -53,9 +90,9 @@ const BoardItem = (props) => {
         />
         <br />
         <button type="submit">Kaydet</button>
-      </form>
-      <div className="cards">
-        {boards.map(
+      </form> */}
+        {/* <div className="cards"> */}
+        {/* {boards.map(
           ({
             id,
             title,
@@ -80,9 +117,10 @@ const BoardItem = (props) => {
               </div>
             );
           }
-        )}
+        )} */}
+        {/* </div> */}
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

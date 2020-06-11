@@ -1,0 +1,18 @@
+- Board Item tıklamayla form elemanı olarak düzenlenebilir olacak.
+  -assignee 
+  -done butonu
+  -category değişimi
+
+- Board ekleme name form inputu olarak düzenlenecek.
+- Board silme (koşullu)
+-* Yer değiştirme
+  -boardları sürükleyerek yerini değiştirme
+  -sürükleyerek aynı boardda sıralama değiştirme
+  -sürükleyerek farklı boarda taşıma
+  -düzenle içinden farkı boarda taşıma
+
+-Navbar
+-Toggle display type
+
+Ek
+- Toplu olarak item silme
