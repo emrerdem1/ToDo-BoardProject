@@ -1,49 +1,65 @@
-import React, { useState } from "react";
-import db from "./../firebaseConfig";
+import React, { useState } from 'react';
+import db from './../firebaseConfig';
 import EditBoardItem from './EditBoardItem';
+import { Grid, Row, Col, Container, Button, ButtonGroup } from 'react-bootstrap';
 
 const BoardItem = ({ boardItem, boardId }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+	const [ showModal, setShowModal ] = useState(false);
+	const [ selectedItem, setSelectedItem ] = useState(null);
 
-  // const updateBoardItem = id => {
+	// const updateBoardItem = id => {
 
-  //   db.collection("boards").doc(boardId).collection("boardItems").doc(id).set({
-  //     ...boardItem,
-  //     title: 'test5'
-  //   });
-  // };
-  const deleteBoardItem = id => {
-    db.collection("boards").doc(boardId).collection("boardItems").doc(id).delete();
-  };
+	//   db.collection("boards").doc(boardId).collection("boardItems").doc(id).set({
+	//     ...boardItem,
+	//     title: 'test5'
+	//   });
+	// };
+	const deleteBoardItem = (id) => {
+		db.collection('boards').doc(boardId).collection('boardItems').doc(id).delete();
+	};
 
-  const handleOpenModal = boardItem => {
-    setShowModal(true);
-    setSelectedItem({ ...boardItem });
-  };
+	const handleOpenModal = (boardItem) => {
+		setShowModal(true);
+		setSelectedItem({ ...boardItem });
+	};
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedItem(null);
-  };
+	const handleCloseModal = () => {
+		setShowModal(false);
+		setSelectedItem(null);
+	};
 
-  return (
-    <React.Fragment>
-      {showModal && <EditBoardItem isOpen={showModal} closeModal={handleCloseModal} selectedItem={selectedItem} />}
-      <div className="board-item">
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <h6>id: {boardItem.id}</h6>
-          <button onClick={() => handleOpenModal(boardItem)}>düzenle</button>
-          <button onClick={() => deleteBoardItem(boardItem.id)}>sil</button>
-        </div>
-        {boardItem.title &&
-          <div>
-            <p>title: {boardItem.title}</p>
-            <p>subtitle: {boardItem.subtitle}</p>
-            <p>assignee: {boardItem.assignee}</p>
-          </div>
-        }
-        {/* <form onSubmit={handleSubmit(onSubmit)}>
+	return (
+		<React.Fragment>
+			{showModal && (
+				<EditBoardItem isOpen={showModal} closeModal={handleCloseModal} selectedItem={selectedItem} />
+			)}
+			<Container className="board-item">
+				<Container className="board-item_nested" style={{ display: 'flex', justifyContent: 'space-between' }}>
+					<div className='board-item_nested--id'>
+						<h6>id: {boardItem.id}</h6>
+					</div>
+					<ButtonGroup className="edit-delete-buttons">
+						<Button
+							variant="outline-warning"
+							size="sm"
+							style={{ marginRight: '3px' }}
+							onClick={() => handleOpenModal(boardItem)}
+						>
+							Edit
+						</Button>
+						<Button variant="outline-danger" size="sm" onClick={() => deleteBoardItem(boardItem.id)}>
+							Delete
+						</Button>
+					</ButtonGroup>
+				</Container>
+				{boardItem.title && (
+					<Container className='board-item_object'>
+						<p>title: {boardItem.title}</p>
+						<p>subtitle: {boardItem.subtitle}</p>
+						<p>assignee: {boardItem.assignee}</p>
+					</Container>
+				)}
+				{/* <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="title">Title: </label>
         <input name="title" ref={register({ required: true })} />
         <br />
@@ -89,8 +105,8 @@ const BoardItem = ({ boardItem, boardId }) => {
         <br />
         <button type="submit">Kaydet</button>
       </form> */}
-        {/* <div className="cards"> */}
-        {/* {boards.map(
+				{/* <div className="cards"> */}
+				{/* {boards.map(
           ({
             id,
             title,
@@ -116,10 +132,9 @@ const BoardItem = ({ boardItem, boardId }) => {
             );
           }
         )} */}
-        {/* </div> */}
-      </div>
-    </React.Fragment>
-  );
+			</Container>
+		</React.Fragment>
+	);
 };
 
 export default BoardItem;

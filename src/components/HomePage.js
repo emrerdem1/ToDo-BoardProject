@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import Board from './Board';
 import { BoardStore } from './BoardSections';
 import db from '../firebaseConfig';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Container } from 'react-bootstrap';
+import { defaultStyle } from './DefaultStyle';
 
 const HomePage = () => {
 	const [ boards, setBoards ] = useContext(BoardStore);
@@ -14,14 +15,16 @@ const HomePage = () => {
 		});
 	};
 	return (
-		<Row>
-			{boards.map((board) => {
-				return <Board key={board.id} singleBoard={board} />;
-			})}
-			<div className="add-section">
-				<button onClick={addBoard}>Board Ekle</button>
-			</div>
-		</Row>
+		<Container fluid className="boards-container" style={defaultStyle}>
+			<Row>
+				{boards.map((board) => {
+					return <Board key={board.id} singleBoard={board} />;
+				})}
+				<Container className="add-section">
+					<Button className='add-general-board' onClick={addBoard}>Board Ekle</Button>
+				</Container>
+			</Row>
+		</Container>
 	);
 };
 export default HomePage;
