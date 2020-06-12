@@ -16,7 +16,7 @@ export default function Board({ singleBoard }) {
   //     { value: 4, name: "testing" },
   //   ];
   const [boardItems, setBoardItems] = useState([]);
-
+  console.log(boardItems)
   useEffect(() => {
     db.collection("boards").doc(singleBoard.id).collection("boardItems").orderBy('position').onSnapshot(collection => {
       const data = collection.docs.map((doc, index) => {
@@ -34,8 +34,7 @@ export default function Board({ singleBoard }) {
 
   const addBoardItem = boardId => {
     db.collection("boards").doc(boardId).collection("boardItems").add({
-      position: boardItems.length + 1,
-      title: `test - position: ${boardItems.length + 1}`
+      position: boardItems.length + 1
     });
   };
 

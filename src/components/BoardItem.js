@@ -5,16 +5,9 @@ import EditBoardItem from './EditBoardItem';
 const BoardItem = ({ boardItem, boardId }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const priorities = [{ id: 1, name: 'Low' }, { id: 2, name: 'Medium' }, { id: 3, name: 'Important' }, { id: 4, name: 'Urgent' }];
+  const statuses = [{ id: 1, name: 'Not Started' }, { id: 2, name: 'Progress' }, { id: 3, name: 'Completed' }];
 
-  console.log(boardItem)
-
-  // const updateBoardItem = id => {
-
-  //   db.collection("boards").doc(boardId).collection("boardItems").doc(id).set({
-  //     ...boardItem,
-  //     title: 'test5'
-  //   });
-  // };
   const deleteBoardItem = id => {
     db.collection("boards").doc(boardId).collection("boardItems").doc(id).delete();
   };
@@ -31,18 +24,20 @@ const BoardItem = ({ boardItem, boardId }) => {
 
   return (
     <React.Fragment>
-      {showModal && <EditBoardItem isOpen={showModal} closeModal={handleCloseModal} selectedItem={selectedItem} />}
+      {showModal && <EditBoardItem isOpen={showModal} closeModal={handleCloseModal} selectedItem={selectedItem} boardId={boardId} />}
       <div className="board-item">
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <h6>id: {boardItem.id}</h6>
-          <button onClick={() => handleOpenModal(boardItem)}>düzenle</button>
-          <button onClick={() => deleteBoardItem(boardItem.id)}>sil</button>
+          <button onClick={() => handleOpenModal(boardItem)}>Edit</button>
+          <button onClick={() => deleteBoardItem(boardItem.id)}>Delete</button>
         </div>
         {boardItem.title &&
-          <div>
+          <div onClick={() => handleOpenModal(boardItem)}>
             <p>title: {boardItem.title}</p>
-            <p>subtitle: {boardItem.subtitle}</p>
             <p>assignee: {boardItem.assignee}</p>
+            <p>description: {boardItem.description}</p>
+            <p>status: {boardItem.status && statuses.find(status => status.id === boardItem.status).name}</p>
+            <p>priority: {boardItem.priority && priorities.find(priority => priority.id === boardItem.priority).name}</p>
+            {/* <p>dueDate: {boardItem.dueDate}</p> */}
           </div>
         }
         {/* <form onSubmit={handleSubmit(onSubmit)}>
