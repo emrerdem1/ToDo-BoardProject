@@ -1,47 +1,79 @@
 .App {
-  margin-top: 1rem;
-  text-align: center;
+	margin-top: 1rem;
+	text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+	height: 40vmin;
+	pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+	.App-logo {
+		animation: App-logo-spin infinite 20s linear;
+	}
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+	background-color: #282c34;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	color: white;
 }
 
 .App-link {
-  color: #61dafb;
+	color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
-.cards{
-  display: flex;
-  margin-top: 1rem;
+.cards {
+	display: flex;
+	margin-top: 1rem;
 }
-.card{
-  border: 1px solid black;
-  width: 33%;
+.card {
+	border: 1px solid black;
+	width: 33%;
+}
+.homepage-board {
+	margin-bottom: 15px;
+	padding: 0 5px !important;
+}
+.board-item {
+	margin: 0 0 10px 0;
+	padding: 0;
+}
+.board-item_nested {
+	width: 65%;
+	padding: 10px 0 0 0 !important;
+}
+.board-description {
+	background-color: #21d4fd;
+	background-image: linear-gradient(19deg, #21d4fd 0%, #5c21ff9a 100%);
+	padding: 10px;
+	border-radius: 5px;
+	text-align: center;
+	display: "flex";
+	justify-content: "space-between";
+}
+.edit-delete-buttons {
+	position: absolute !important;
+	right: 10px;
+	height: 35px;
+}
+.edit-delete-buttons > .btn {
+	border-radius: 30px !important;
+}
+.user-board-input {
+	width: 68%;
 }
