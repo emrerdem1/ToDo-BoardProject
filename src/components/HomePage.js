@@ -6,12 +6,12 @@ import { Grid, Row, Col, Button, Container } from 'react-bootstrap';
 import { defaultStyle } from './DefaultStyle';
 
 const HomePage = () => {
-	const [ boards, setBoards ] = useContext(BoardStore);
+	const [boards, setBoards] = useContext(BoardStore);
 
 	const addBoard = () => {
 		db.collection('boards').add({
 			position: boards.length + 1,
-			name: 'custom board2'
+			name: ''
 		});
 	};
 	return (
@@ -20,9 +20,11 @@ const HomePage = () => {
 				{boards.map((board) => {
 					return <Board key={board.id} singleBoard={board} />;
 				})}
-				<Container className="add-section">
-					<Button className='add-general-board' onClick={addBoard}>Board Ekle</Button>
-				</Container>
+				<Col xs={11} sm={6} md={4} lg={3} xl={3}>
+					<Container className="add-section">
+						<Button className='add-general-board' onClick={addBoard}>Add Board</Button>
+					</Container>
+				</Col>
 			</Row>
 		</Container>
 	);

@@ -2,64 +2,73 @@ import React, { useState, useEffect } from 'react';
 import BoardItem from './BoardItem';
 import db from './../firebaseConfig';
 import { Grid, Row, Col, Container, Button } from 'react-bootstrap';
+import { IconButton, Icon } from '@material-ui/core';
+import EditBoard from './EditBoard';
 
 export default function Board({ singleBoard }) {
-	// const priorities = [
-	//     { value: 0, name: "low" },
-	//     { value: 1, name: "medium" },
-	//     { value: 2, name: "high" },
-	//   ];
-	//   const statusFlags = [
-	//     { value: 0, name: "todo" },
-	//     { value: 1, name: "planned" },
-	//     { value: 2, name: "inProgress" },
-	//     { value: 3, name: "done" },
-	//     { value: 4, name: "testing" },
-	//   ];
-	const [ boardItems, setBoardItems ] = useState([]);
+	const [showModal, setShowModal] = useState(false);
+	const [boardItems, setBoardItems] = useState([]);
+	const [selectedItem, setSelectedItem] = useState(null);
 
-	useEffect(
-		() => {
-			db
-				.collection('boards')
-				.doc(singleBoard.id)
-				.collection('boardItems')
-				.orderBy('position')
-				.onSnapshot((collection) => {
-					const data = collection.docs.map((doc, index) => {
-						const docData = { ...doc.data() };
-						if (docData.position !== index + 1) docData.position = index + 1;
-						return {
-							...docData,
-							id: doc.id
-						};
-					});
-					setBoardItems([ ...data ]);
-				});
-		},
-		[ singleBoard ]
-	);
+	useEffect(() => {
+		db.collection("boards").doc(singleBoard.id).collection("boardItems").orderBy('position').onSnapshot(collection => {
+			const data = collection.docs.map((doc, index) => {
+				const docData = { ...doc.data() };
+				if (docData.position !== index + 1) docData.position = index + 1;
+				return {
+					...docData,
+					id: doc.id,
+				};
+			});
+			setBoardItems([...data]);
+		});
+	}, [singleBoard]);
 
 	const addBoardItem = (boardId) => {
 		db.collection('boards').doc(boardId).collection('boardItems').add({
-			position: boardItems.length + 1,
-			title: `test - position: ${boardItems.length + 1}`
+			position: boardItems.length + 1
 		});
 	};
 
+	const deleteBoard = (boardId) => {
+		db.collection('boards').doc(boardId).delete();
+	};
+
+	const handleOpenModal = board => {
+		setShowModal(true);
+		setSelectedItem({ ...board });
+	};
+
+	const handleCloseModal = () => {
+		setShowModal(false);
+		setSelectedItem(null);
+	};
+
 	return (
-		<Col xs={11} sm={6} md={4} lg={3} xl={3} className="homepage-board">
-			<Container className="board-description">
-				<Container className="user-board-input">
-					<p>name: {singleBoard.name}</p>
+		<React.Fragment>
+			{showModal && <EditBoard isOpen={showModal} closeModal={handleCloseModal} selectedItem={selectedItem} />
+			}
+			<Col xs={11} sm={6} md={4} lg={3} xl={3} className="homepage-board">
+				<Container className="board-description">
+					<Container className="user-board-input">
+						<p>name: {singleBoard.name}</p>
+						<span>
+							<IconButton onClick={() => handleOpenModal(singleBoard)} size="small">
+								<Icon >edit</Icon>
+							</IconButton>
+						</span>
+					</Container>
+					<Button variant="outline-light" size="sm" onClick={() => addBoardItem(singleBoard.id)}>
+						<span>Add an item</span>
+					</Button>
+					<Button variant="outline-light" size="sm" onClick={() => deleteBoard(singleBoard.id)} className="ml-2">
+						<span>Delete the board</span>
+					</Button>
 				</Container>
-				<Button variant="outline-light" size="sm" onClick={() => addBoardItem(singleBoard.id)}>
-					<span>Add</span>
-				</Button>
-			</Container>
-			{boardItems.map((boardItem) => {
-				return <BoardItem key={boardItem.id} boardItem={boardItem} boardId={singleBoard.id} />;
-			})}
-		</Col>
+				{boardItems.map((boardItem) => {
+					return <BoardItem key={boardItem.id} boardItem={boardItem} boardId={singleBoard.id} />;
+				})}
+			</Col>
+		</React.Fragment>
 	);
 }

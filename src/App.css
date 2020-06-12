@@ -76,6 +76,8 @@
 }
 .user-board-input {
 	width: 68%;
+	display: flex;
+	justify-content: center;
 }
 .board-item_nested--id {
 	width: 67%;
