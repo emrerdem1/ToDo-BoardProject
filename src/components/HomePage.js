@@ -19,7 +19,7 @@ const HomePage = () => {
 				return <Board key={board.id} singleBoard={board} />;
 			})}
 			<div className="add-section">
-				<button onClick={() => addBoard}>Board Ekle</button>
+				<button onClick={addBoard}>Board Ekle</button>
 			</div>
 		</Row>
 	);
