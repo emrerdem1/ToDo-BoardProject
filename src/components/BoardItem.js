@@ -35,7 +35,9 @@ const BoardItem = ({ boardItem, boardId }) => {
 			)}
 			<Container className="board-item">
 				<Container className="board-item_nested" style={{ display: 'flex', justifyContent: 'space-between' }}>
-					<h6>id: {boardItem.id}</h6>
+					<div className='board-item_nested--id'>
+						<h6>id: {boardItem.id}</h6>
+					</div>
 					<ButtonGroup className="edit-delete-buttons">
 						<Button
 							variant="outline-warning"
@@ -51,7 +53,7 @@ const BoardItem = ({ boardItem, boardId }) => {
 					</ButtonGroup>
 				</Container>
 				{boardItem.title && (
-					<Container>
+					<Container className='board-item_object'>
 						<p>title: {boardItem.title}</p>
 						<p>subtitle: {boardItem.subtitle}</p>
 						<p>assignee: {boardItem.assignee}</p>

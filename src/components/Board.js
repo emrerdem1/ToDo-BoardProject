@@ -53,8 +53,8 @@ export default function Board({ singleBoard }) {
 				<Container className="user-board-input">
 					<p>name: {singleBoard.name}</p>
 				</Container>
-				<Button variant="outline-light" onClick={() => addBoardItem(singleBoard.id)}>
-					Ekle
+				<Button variant="outline-light" size="sm" onClick={() => addBoardItem(singleBoard.id)}>
+					<span>Add</span>
 				</Button>
 			</Container>
 			{boardItems.map((boardItem) => {

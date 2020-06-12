@@ -77,3 +77,12 @@
 .user-board-input {
 	width: 68%;
 }
+.board-item_nested--id {
+	width: 67%;
+	overflow: hidden;
+	border-bottom: 1px solid black;
+	padding-bottom: 5px;
+}
+.board-item_object {
+	padding-top: 10px;
+}
