@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import BoardItem from "./BoardItem";
 import db from "./../firebaseConfig";
+import { Grid, Row, Col } from 'react-bootstrap';
 
 export default function Board({ singleBoard }) {
   // const priorities = [
@@ -40,7 +41,7 @@ export default function Board({ singleBoard }) {
   };
 
   return (
-    <div className="card">
+    <Col xs={11} sm={6} md={4} lg={3} xl={3} className='homepage-board'>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <h5>name: {singleBoard.name}</h5>
         <button onClick={() => addBoardItem(singleBoard.id)}>Ekle</button>
@@ -48,6 +49,6 @@ export default function Board({ singleBoard }) {
       {boardItems.map((boardItem) => {
         return <BoardItem key={boardItem.id} boardItem={boardItem} boardId={singleBoard.id} />;
       })}
-    </div>
+    </Col>
   );
 }

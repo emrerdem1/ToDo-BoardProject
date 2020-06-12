@@ -19,17 +19,9 @@ export const BoardSections = ({children }) => {
 		});
   }, []);
   
-  
 	return (
-		<React.Fragment>
-			<div className="cards">
-                {boards.map((board) => {
-                return board.id;
-                })}
-            </div>
-				<BoardStore.Provider value={[boards, setBoards]}>
-					{children}
-				</BoardStore.Provider>
-		</React.Fragment>
+		<BoardStore.Provider value={[boards, setBoards]}>
+			{children}
+		</BoardStore.Provider>
 	)
 };

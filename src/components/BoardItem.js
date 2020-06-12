@@ -6,8 +6,6 @@ const BoardItem = ({ boardItem, boardId }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  console.log(boardItem)
-
   // const updateBoardItem = id => {
 
   //   db.collection("boards").doc(boardId).collection("boardItems").doc(id).set({
