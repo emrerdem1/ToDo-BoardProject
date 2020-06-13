@@ -88,3 +88,7 @@
 .board-item_object {
 	padding-top: 10px;
 }
+.nav-inactive {
+	color: inherit;
+	text-decoration: none;
+}
