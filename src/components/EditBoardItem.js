@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem, } from "@material-ui/core";
 import { useForm } from 'react-hook-form';
-// import DateFnsUtils from "@date-io/date-fns";
-// import { MuiPickersUtilsProvider, KeyboardDatePicker, } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider, KeyboardDatePicker, } from "@material-ui/pickers";
 import db from "./../firebaseConfig";
 
 export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardId }) {
@@ -10,9 +10,9 @@ export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardI
   const priorities = [{ id: 1, name: 'Low' }, { id: 2, name: 'Medium' }, { id: 3, name: 'Important' }, { id: 4, name: 'Urgent' }];
   const statuses = [{ id: 1, name: 'Todo' }, { id: 2, name: 'Planned' }, { id: 3, name: 'Progress' }, { id: 4, name: 'Done' }, { id: 5, name: 'Testing' }];
   const [values, setValues] = useState({ status: '', priority: '' });
-  // const [selectedDate, setSelectedDate] = useState(
-  //   new Date("2020-01-01T00:00:00")
-  // );
+  const [selectedDate, setSelectedDate] = useState(
+    new Date("2020-01-01T00:00:00")
+  );
 
   useEffect(() => {
     setValues({ status: selectedItem.status ? selectedItem.status : '', priority: selectedItem.priority ? selectedItem.priority : '' });
@@ -22,9 +22,9 @@ export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardI
     const newData = {
       ...selectedItem,
       ...data,
-      ...values
+      ...values,
+      dueDate: selectedDate
     }
-    console.log(newData)
     updateBoardItem(newData);
   }
 
@@ -33,13 +33,13 @@ export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardI
     closeModal();
   };
 
-  // const handleDateChange = (date) => {
-  //   const tempDate = new Date(date);
-  //   const newDate = new Date(
-  //     tempDate.getTime() - tempDate.getTimezoneOffset() * 60000
-  //   );
-  //   setSelectedDate(newDate);
-  // };
+  const handleDateChange = (date) => {
+    const tempDate = new Date(date);
+    const newDate = new Date(
+      tempDate.getTime() - tempDate.getTimezoneOffset() * 60000
+    );
+    setSelectedDate(newDate);
+  };
 
   const handleSelectChange = prop => event => {
     setValues(prev => {
@@ -134,7 +134,7 @@ export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardI
               </MenuItem>
             ))}
           </TextField>
-          {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               format="MM/dd/yyyy"
               margin="normal"
@@ -147,7 +147,7 @@ export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardI
                 "aria-label": "change date",
               }}
             />
-          </MuiPickersUtilsProvider> */}
+          </MuiPickersUtilsProvider>
         </DialogContent>
         <DialogActions>
           <Button

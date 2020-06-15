@@ -1,23 +1,27 @@
-- Board Item tıklamayla form elemanı olarak düzenlenebilir olacak.(burak-modal)
-  -assignee 
-  -done butonu
-  -category değişimi
+- Board Item ve board kendisi tıklamayla form elemanı olarak düzenlenebilir olacak.(burak-modal +)
+  -assignee (sonra)
+  -done butonu (sonra)
 
-- Board ekleme name form inputu olarak düzenlenecek.
-- Board silme (default boardları silemesin, kendi eklediklerini silebilsin)
+
+- Board silme (default boardları silemesin, kendi eklediklerini silebilsin) (emre)
   - silinen boardlar 1 hafta çöp kutusunda tutulsun
   - çöp kutusu limiti N
-
-- Boardlar collapse olsun, tıklayınca kapansın, küçülsün
+- Boardlar ve board itemlar collapse olsun, tıklayınca kapansın, küçülsün (emre)
 
 -* Yer değiştirme
   -boardları sürükleyerek yerini değiştirme
   -sürükleyerek aynı boardda sıralama değiştirme
   -sürükleyerek farklı boarda taşıma
-  -düzenle içinden farkı boarda taşıma
+  -düzenle içinden farkı boarda taşıma ( -category değişimi (status - burak))
 
--Navbar(emre)
--Toggle display type
+-Navbar(emre)+
+-Toggle display type 
 
+
+Yeni
+- priorities (burak)
+- status (burak)
+- dueDate (emre)
+- deadline 
 Ek
 - Toplu olarak item silme
