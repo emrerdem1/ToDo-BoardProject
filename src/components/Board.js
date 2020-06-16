@@ -30,6 +30,7 @@ export default function Board({ singleBoard }) {
 		});
 	};
 
+
 	const deleteBoard = (boardId) => {
 		db.collection('boards').doc(boardId).delete();
 	};
@@ -44,11 +45,45 @@ export default function Board({ singleBoard }) {
 		setSelectedItem(null);
 	};
 
+	const handleUpdateBoardPosition = (olan, gelen) => {
+		db.doc(`boards/${olan.id}`).set({
+			...olan,
+			position: gelen.position
+		});
+		db.collection("boards").doc(gelen.id).set({
+			...gelen,
+			position: olan.position
+		});
+	};
+
+	const handleUpdateBoardItem = (olan, gelen, id) => {
+		// db.collection("boards").doc(id).collection("boardItems").doc(gelen.id).delete();
+		db.doc(`boards/${id}/boardItems/${gelen.id}`).delete();
+		db.collection(`boards/${olan.id}/boardItems`).add({
+			...gelen,
+			position: boardItems.length + 1
+		})
+	}
+
 	return (
 		<React.Fragment>
 			{showModal && <EditBoard isOpen={showModal} closeModal={handleCloseModal} selectedItem={selectedItem} />
 			}
-			<Col xs={11} sm={6} md={4} lg={3} xl={3} className="homepage-board">
+			<Col xs={11} sm={6} md={4} lg={3} xl={3} className="homepage-board" draggable onDrop={(e) => {
+				if (e.dataTransfer.getData('position')) {
+					// console.log(JSON.parse(e.dataTransfer.getData('position')));
+					// console.log(e.dataTransfer.getData('boardId'));
+					handleUpdateBoardItem(singleBoard, JSON.parse(e.dataTransfer.getData('position')), e.dataTransfer.getData('boardId'));
+				} else {
+					console.log(singleBoard)
+					console.log(JSON.parse(e.dataTransfer.getData('positionBoard')));
+					handleUpdateBoardPosition(singleBoard, JSON.parse(e.dataTransfer.getData('positionBoard')))
+				}
+			}} onDragStart={(e) => {
+				e.dataTransfer.setData("positionBoard", JSON.stringify(singleBoard));
+			}} onDragOver={(e) => {
+				e.preventDefault();
+			}}>
 				<Container className="board-description">
 					<Container className="user-board-input">
 						<p>name: {singleBoard.name}</p>

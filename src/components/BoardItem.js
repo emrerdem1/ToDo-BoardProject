@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import db from './../firebaseConfig';
 import EditBoardItem from './EditBoardItem';
 import { Grid, Row, Col, Container, Button, ButtonGroup } from 'react-bootstrap';
+import { BoardStore } from './BoardSections';
 
 const BoardItem = ({ boardItem, boardId }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const priorities = [{ id: 1, name: 'Low' }, { id: 2, name: 'Medium' }, { id: 3, name: 'Important' }, { id: 4, name: 'Urgent' }];
-  const statuses = [{ id: 1, name: 'Not Started' }, { id: 2, name: 'Progress' }, { id: 3, name: 'Completed' }];
+  const [priorities, setPriorities] = useState([]);
+  const [statuses] = useContext(BoardStore);
+
+  useEffect(() => {
+    db.collection("priorities").orderBy('value').onSnapshot(collection => {
+      const data = collection.docs.map(doc => {
+        return {
+          ...doc.data(),
+          id: doc.id,
+        };
+      });
+      setPriorities([...data]);
+    });
+  }, [])
+
 
   const deleteBoardItem = id => {
     db.collection("boards").doc(boardId).collection("boardItems").doc(id).delete();
@@ -28,7 +42,12 @@ const BoardItem = ({ boardItem, boardId }) => {
       {showModal && (
         <EditBoardItem isOpen={showModal} closeModal={handleCloseModal} selectedItem={selectedItem} boardId={boardId} />
       )}
-      <Container className="board-item">
+      <Container className="board-item" draggable onDragStart={(e) => {
+        e.dataTransfer.setData("position", JSON.stringify(boardItem));
+        e.dataTransfer.setData("boardId", boardId);
+      }} onDragOver={(e) => {
+        e.preventDefault();
+      }}>
         <Container className="board-item_nested" style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div className='board-item_nested--id'>
             <h6>id: {boardItem.id}</h6>
@@ -52,8 +71,8 @@ const BoardItem = ({ boardItem, boardId }) => {
             <p>Title: {boardItem.title}</p>
             <p>Assignee: {boardItem.assignee}</p>
             <p>Description: {boardItem.description}</p>
-            <p>Status: {boardItem.status && statuses.find(status => status.id === boardItem.status).name}</p>
-            <p>Priority: {boardItem.priority && priorities.find(priority => priority.id === boardItem.priority).name}</p>
+            <p>Status: {boardItem.status && statuses.find(status => status.position === boardItem.status)?.name}</p>
+            <p>Priority: {boardItem.priority && priorities.find(priority => priority.value === boardItem.priority)?.name}</p>
             {/* <p>dueDate: {boardItem.dueDate}</p> */}
           </Container>
         )}

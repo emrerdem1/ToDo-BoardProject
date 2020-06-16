@@ -1,18 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem, } from "@material-ui/core";
 import { useForm } from 'react-hook-form';
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider, KeyboardDatePicker, } from "@material-ui/pickers";
 import db from "./../firebaseConfig";
+import { BoardStore } from './BoardSections';
 
 export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardId }) {
   const { register, handleSubmit } = useForm();
-  const priorities = [{ id: 1, name: 'Low' }, { id: 2, name: 'Medium' }, { id: 3, name: 'Important' }, { id: 4, name: 'Urgent' }];
-  const statuses = [{ id: 1, name: 'Todo' }, { id: 2, name: 'Planned' }, { id: 3, name: 'Progress' }, { id: 4, name: 'Done' }, { id: 5, name: 'Testing' }];
+  const [priorities, setPriorities] = useState([]);
+  const [statuses] = useContext(BoardStore);
   const [values, setValues] = useState({ status: '', priority: '' });
   const [selectedDate, setSelectedDate] = useState(
     new Date("2020-01-01T00:00:00")
   );
+
+  useEffect(() => {
+    db.collection("priorities").orderBy('value').onSnapshot(collection => {
+      const data = collection.docs.map(doc => {
+        return {
+          ...doc.data(),
+          id: doc.id,
+        };
+      });
+      setPriorities([...data]);
+    });
+  }, [])
 
   useEffect(() => {
     setValues({ status: selectedItem.status ? selectedItem.status : '', priority: selectedItem.priority ? selectedItem.priority : '' });
@@ -29,7 +42,12 @@ export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardI
   }
 
   const updateBoardItem = data => {
-    db.collection("boards").doc(boardId).collection("boardItems").doc(selectedItem.id).set(data);
+    const id = statuses.find(status => status.position === values.status)?.id;
+    if (boardId === id) {
+      db.collection("boards").doc(boardId).collection("boardItems").doc(selectedItem.id).set(data);
+    } else {
+      changeStatus(id, data);
+    }
     closeModal();
   };
 
@@ -44,6 +62,14 @@ export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardI
   const handleSelectChange = prop => event => {
     setValues(prev => {
       return { ...prev, [prop]: event.target.value };
+    });
+  };
+
+  const changeStatus = (id, data) => {
+    db.collection("boards").doc(boardId).collection("boardItems").doc(selectedItem.id).delete();
+    db.collection("boards").doc(id).collection("boardItems").add({
+      ...data,
+      position: statuses.length + 1
     })
   }
 
@@ -105,8 +131,8 @@ export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardI
                 },
               },
             }}>
-            {statuses.map(({ id, name }) => (
-              <MenuItem key={id} value={id}>
+            {statuses.map(({ position, name }) => (
+              <MenuItem key={position} value={position}>
                 {name}
               </MenuItem>
             ))}
@@ -128,8 +154,8 @@ export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardI
                 },
               },
             }}>
-            {priorities.map(({ id, name }) => (
-              <MenuItem key={id} value={id}>
+            {priorities.map(({ value, name }) => (
+              <MenuItem key={value} value={value}>
                 {name}
               </MenuItem>
             ))}

@@ -7,6 +7,8 @@ export const BoardSections = ({ children }) => {
 
 	const [boards, setBoards] = useState([]);
 
+	console.log(boards)
+
 	useEffect(() => {
 		db.collection("boards").orderBy('position').onSnapshot(collection => {
 			const data = collection.docs.map(doc => {
