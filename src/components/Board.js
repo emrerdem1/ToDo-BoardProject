@@ -6,14 +6,13 @@ import { IconButton, Icon } from '@material-ui/core';
 import EditBoard from './EditBoard';
 import customClasses from "classnames";
 
-export default function Board({ singleBoard }) {
+export default function Board({ singleBoard, toggleDisplay }) {
 	const [ showModal, setShowModal ] = useState(false);
 	const [ boardItems, setBoardItems ] = useState([]);
 	const [ selectedItem, setSelectedItem ] = useState(null);
-	const [collapseStatus, setCollapseStatus] = useState(true);
+	const [collapseStatus, setCollapseStatus] = useState(false);
 	useEffect(
 		() => {
-			//db.collection("boards").doc(singleBoard.id).collection("boardItems").orderBy('position').onSnapshot(collection => {
 			db.collection(`boards/${singleBoard.id}/boardItems`).orderBy('position').onSnapshot((collection) => {
 				const data = collection.docs.map((doc, index) => {
 					const docData = { ...doc.data() };
@@ -61,23 +60,21 @@ export default function Board({ singleBoard }) {
 	};
 
 	const handleUpdateBoardItem = (olan, gelen, id) => {
-		// db.collection("boards").doc(id).collection("boardItems").doc(gelen.id).delete();
 		db.doc(`boards/${id}/boardItems/${gelen.id}`).delete();
 		db.collection(`boards/${olan.id}/boardItems`).add({
 			...gelen,
 			position: boardItems.length + 1
 		});
 	};
+	const toggleClasses = {
+		initial: 'col-xs-11 col-sm-6 col-md-4 col-lg-3 col-xl-3',
+		listView: 'col-11'
+	};
 	return (
 		<React.Fragment>
 			{showModal && <EditBoard isOpen={showModal} closeModal={handleCloseModal} selectedItem={selectedItem} />}
 			<Col
-				xs={11}
-				sm={6}
-				md={4}
-				lg={3}
-				xl={3}
-				className="homepage-board"
+				className={`homepage-board ${toggleDisplay ? toggleClasses.listView : toggleClasses.initial}`}
 				draggable
 				onDrop={(e) => {
 					if (e.dataTransfer.getData('position')) {
@@ -103,7 +100,7 @@ export default function Board({ singleBoard }) {
 			>
 				<Container  className={
 					customClasses(`board-description`, 
-					{collapseStatus_false: !collapseStatus})}> 
+					{collapseStatus_false: collapseStatus})}> 
 					<Container className="user-board-input">
 					<Container>
 						<p>{singleBoard.name}</p>
@@ -122,10 +119,10 @@ export default function Board({ singleBoard }) {
 						<span>Collapse</span>
 					</Button>
 					</Container>
-					{collapseStatus && (<Button variant="outline-light" size="sm" onClick={() => addBoardItem(singleBoard.id)}>
+					{!collapseStatus && (<Button variant="outline-light" size="sm" onClick={() => addBoardItem(singleBoard.id)}>
 						<span>Add an item</span>
 					</Button>)}
-					{collapseStatus && (<Button
+					{!collapseStatus && (<Button
 						variant="outline-light"
 						size="sm"
 						onClick={() => deleteBoard(singleBoard.id)}
@@ -135,7 +132,7 @@ export default function Board({ singleBoard }) {
 					</Button>)}
 					
 				</Container>
-				{collapseStatus && boardItems.map((boardItem) => {
+				{!collapseStatus && boardItems.map((boardItem) => {
 					return <BoardItem key={boardItem.id} boardItem={boardItem} boardId={singleBoard.id} />;
 				})}
 			</Col>

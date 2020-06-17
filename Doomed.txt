@@ -6,7 +6,6 @@
 - Board silme (default boardları silemesin, kendi eklediklerini silebilsin) (emre)
   - silinen boardlar 1 hafta çöp kutusunda tutulsun
   - çöp kutusu limiti N
-- Boardlar ve board itemlar collapse olsun, tıklayınca kapansın, küçülsün (emre)
 
 -* Yer değiştirme
   -boardları sürükleyerek yerini değiştirme

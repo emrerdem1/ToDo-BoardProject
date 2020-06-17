@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Board from './Board';
 import { BoardStore } from './BoardSections';
 import db from '../firebaseConfig';
@@ -7,6 +7,7 @@ import { defaultStyle } from './DefaultStyle';
 
 const HomePage = () => {
 	const [boards, setBoards] = useContext(BoardStore);
+	const [toggleDisplay, setToggleDisplay] = useState(false);
 
 	const addBoard = () => {
 		db.collection('boards').add({
@@ -15,10 +16,14 @@ const HomePage = () => {
 		});
 	};
 	return (
+		<>
+		<Container fluid className="boards-controller" style={defaultStyle}>
+			<Button onClick={() => setToggleDisplay(!toggleDisplay)}>Toggle Display</Button>
+		</Container>
 		<Container fluid className="boards-container" style={defaultStyle}>
 			<Row>
 				{boards.map((board) => {
-					return <Board key={board.id} singleBoard={board} />;
+					return <Board key={board.id} singleBoard={board} toggleDisplay={toggleDisplay}/>;
 				})}
 				<Col xs={11} sm={6} md={4} lg={3} xl={3}>
 					<Container className="add-section">
@@ -27,6 +32,7 @@ const HomePage = () => {
 				</Col>
 			</Row>
 		</Container>
+		</>
 	);
 };
 export default HomePage;
