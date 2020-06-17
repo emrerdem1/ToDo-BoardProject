@@ -5,13 +5,14 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { BoardSections } from './components/BoardSections';
 
 ReactDOM.render(
-	<React.StrictMode>
-		<Router>
-			<App />
-		</Router>
-	</React.StrictMode>,
+		<BoardSections>
+			<Router>
+				<App />
+			</Router>
+		</BoardSections>,
 	document.getElementById('root')
 );
 

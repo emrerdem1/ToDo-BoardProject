@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
-import { BoardSections } from './components/BoardSections';
-import RouteBlock from './components/RouteBlock'
+import RouteBlock from './components/RouteBlock';
 import NavBar from './components/NavBar';
 
 const App = (props) => {
 	return (
-		<BoardSections>
+		<Fragment>
 			<NavBar />
 			<RouteBlock />
-		</BoardSections>
+		</Fragment>
 	);
 };
 

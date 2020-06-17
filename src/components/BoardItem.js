@@ -24,7 +24,7 @@ const BoardItem = ({ boardItem, boardId }) => {
 
 
   const deleteBoardItem = id => {
-    db.collection("boards").doc(boardId).collection("boardItems").doc(id).delete();
+    db.doc(`boards/${boardId}/boardItems/${id}`).delete();
   };
 
   const handleOpenModal = boardItem => {
