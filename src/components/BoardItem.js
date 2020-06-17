@@ -53,7 +53,7 @@ const BoardItem = ({ boardItem, boardId }) => {
             <h6>id: {boardItem.id}</h6>
           </div>
           <ButtonGroup className="edit-delete-buttons">
-            <Button
+            <Button 
               variant="outline-warning"
               size="sm"
               style={{ marginRight: '3px' }}
