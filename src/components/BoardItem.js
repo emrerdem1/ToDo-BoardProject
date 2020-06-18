@@ -9,6 +9,7 @@ const BoardItem = ({ boardItem, boardId }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [priorities, setPriorities] = useState([]);
   const [statuses] = useContext(BoardStore);
+  const date = boardItem.dueDate ? new Date(boardItem?.dueDate?.seconds * 1000) : '';
 
   useEffect(() => {
     db.collection("priorities").orderBy('value').onSnapshot(collection => {
@@ -21,6 +22,12 @@ const BoardItem = ({ boardItem, boardId }) => {
       setPriorities([...data]);
     });
   }, [])
+
+  // useEffect(() => {
+  //   if (boardItem.dueDate) {
+  //     console.log(new Date(boardItem?.dueDate.seconds * 1000))
+  //   }
+  // }, [boardItem])
 
 
   const deleteBoardItem = id => {
@@ -37,13 +44,24 @@ const BoardItem = ({ boardItem, boardId }) => {
     setSelectedItem(null);
   };
 
+  const getFormattedDate = timeStamp => {
+    if (timeStamp) {
+      const fullDate = new Date(timeStamp * 1000);
+      const date = fullDate.getDate();
+      const month = fullDate.getMonth() + 1;
+      const year = fullDate.getFullYear();
+      return `${date}-${month}-${year}`;
+    }
+    return '-'
+  }
+
   return (
     <React.Fragment>
       {showModal && (
         <EditBoardItem isOpen={showModal} closeModal={handleCloseModal} selectedItem={selectedItem} boardId={boardId} />
       )}
       <Container className="board-item" draggable onDragStart={(e) => {
-        e.dataTransfer.setData("position", JSON.stringify(boardItem));
+        e.dataTransfer.setData("updatedItem", JSON.stringify(boardItem));
         e.dataTransfer.setData("boardId", boardId);
       }} onDragOver={(e) => {
         e.preventDefault();
@@ -66,16 +84,14 @@ const BoardItem = ({ boardItem, boardId }) => {
 						</Button>
           </ButtonGroup>
         </Container>
-        {boardItem.title && (
-          <Container className='board-item_object'>
-            <p>Title: {boardItem.title}</p>
-            <p>Assignee: {boardItem.assignee}</p>
-            <p>Description: {boardItem.description}</p>
-            <p>Status: {boardItem.status && statuses.find(status => status.position === boardItem.status)?.name}</p>
-            <p>Priority: {boardItem.priority && priorities.find(priority => priority.value === boardItem.priority)?.name}</p>
-            {/* <p>dueDate: {boardItem.dueDate}</p> */}
-          </Container>
-        )}
+        <Container className='board-item_object'>
+          <p>Title: {boardItem?.title}</p>
+          <p>Assignee: {boardItem?.assignee}</p>
+          <p>Description: {boardItem?.description}</p>
+          <p>Status: {boardItem.status && statuses.find(status => status.position === boardItem.status)?.name}</p>
+          <p>Priority: {boardItem.priority && priorities.find(priority => priority.value === boardItem.priority)?.name}</p>
+          <p>dueDate: {getFormattedDate(boardItem?.dueDate?.seconds)}</p>
+        </Container>
       </Container>
     </React.Fragment>
   );

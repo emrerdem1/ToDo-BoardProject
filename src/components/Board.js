@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import BoardItem from './BoardItem';
 import db from './../firebaseConfig';
 import { Grid, Row, Col, Container, Button } from 'react-bootstrap';
 import { IconButton, Icon } from '@material-ui/core';
 import EditBoard from './EditBoard';
 import customClasses from "classnames";
+import EditableInput from './Editable/EditableInput';
 
 export default function Board({ singleBoard, toggleDisplay }) {
-	const [ showModal, setShowModal ] = useState(false);
-	const [ boardItems, setBoardItems ] = useState([]);
-	const [ selectedItem, setSelectedItem ] = useState(null);
+	const [showModal, setShowModal] = useState(false);
+	const [boardItems, setBoardItems] = useState([]);
+	const [selectedItem, setSelectedItem] = useState(null);
 	const [collapseStatus, setCollapseStatus] = useState(false);
+	const [task, setTask] = useState("");
+	const inputRef = useRef();
 	useEffect(
 		() => {
 			db.collection(`boards/${singleBoard.id}/boardItems`).orderBy('position').onSnapshot((collection) => {
@@ -22,14 +25,19 @@ export default function Board({ singleBoard, toggleDisplay }) {
 						id: doc.id
 					};
 				});
-				setBoardItems([ ...data ]);
+				setBoardItems([...data]);
 			});
 		},
-		[ singleBoard ]
+		[singleBoard]
 	);
+
+	useEffect(() => {
+		setTask(singleBoard?.name)
+	}, [singleBoard])
 
 	const addBoardItem = (boardId) => {
 		db.collection(`boards/${boardId}/boardItems`).add({
+			status: singleBoard.position,
 			position: boardItems.length + 1
 		});
 	};
@@ -48,28 +56,42 @@ export default function Board({ singleBoard, toggleDisplay }) {
 		setSelectedItem(null);
 	};
 
-	const handleUpdateBoardPosition = (olan, gelen) => {
-		db.doc(`boards/${olan.id}`).set({
-			...olan,
-			position: gelen.position
-		});
-		db.doc(`boards/${gelen.id}`).set({
-			...gelen,
-			position: olan.position
+	const handleUpdateBoardPosition = (current, incoming) => {
+		if (current.id !== incoming.id) {
+			db.doc(`boards/${current.id}`).set({
+				...current,
+				position: incoming.position
+			});
+			db.doc(`boards/${incoming.id}`).set({
+				...incoming,
+				position: current.position
+			});
+		}
+	};
+
+	const handleUpdateBoardItem = (current, incoming, id) => {
+		if (current.id !== id) {
+			db.doc(`boards/${id}/boardItems/${incoming.id}`).delete();
+			db.collection(`boards/${current.id}/boardItems`).add({
+				...incoming,
+				position: boardItems.length + 1
+			});
+		}
+	};
+
+	const handleNameChange = board => event => {
+		const name = event.target.value;
+		setTask(name);
+		db.doc(`boards/${board.id}`).update({
+			name
 		});
 	};
 
-	const handleUpdateBoardItem = (olan, gelen, id) => {
-		db.doc(`boards/${id}/boardItems/${gelen.id}`).delete();
-		db.collection(`boards/${olan.id}/boardItems`).add({
-			...gelen,
-			position: boardItems.length + 1
-		});
-	};
 	const toggleClasses = {
 		initial: 'col-xs-11 col-sm-6 col-md-4 col-lg-3 col-xl-3',
 		listView: 'col-11'
 	};
+
 	return (
 		<React.Fragment>
 			{showModal && <EditBoard isOpen={showModal} closeModal={handleCloseModal} selectedItem={selectedItem} />}
@@ -77,47 +99,55 @@ export default function Board({ singleBoard, toggleDisplay }) {
 				className={`homepage-board ${toggleDisplay ? toggleClasses.listView : toggleClasses.initial}`}
 				draggable
 				onDrop={(e) => {
-					if (e.dataTransfer.getData('position')) {
-						// console.log(JSON.parse(e.dataTransfer.getData('position')));
-						// console.log(e.dataTransfer.getData('boardId'));
+					if (e.dataTransfer.getData('updatedItem')) {
 						handleUpdateBoardItem(
 							singleBoard,
-							JSON.parse(e.dataTransfer.getData('position')),
+							JSON.parse(e.dataTransfer.getData('updatedItem')),
 							e.dataTransfer.getData('boardId')
 						);
 					} else {
-						console.log(singleBoard);
-						console.log(JSON.parse(e.dataTransfer.getData('positionBoard')));
-						handleUpdateBoardPosition(singleBoard, JSON.parse(e.dataTransfer.getData('positionBoard')));
+						handleUpdateBoardPosition(singleBoard, JSON.parse(e.dataTransfer.getData('updatedBoard')));
 					}
 				}}
 				onDragStart={(e) => {
-					e.dataTransfer.setData('positionBoard', JSON.stringify(singleBoard));
+					e.dataTransfer.setData('updatedBoard', JSON.stringify(singleBoard));
 				}}
 				onDragOver={(e) => {
 					e.preventDefault();
 				}}
 			>
-				<Container  className={
-					customClasses(`board-description`, 
-					{collapseStatus_false: collapseStatus})}> 
+				<Container className={
+					customClasses(`board-description`,
+						{ collapseStatus_false: collapseStatus })}>
 					<Container className="user-board-input">
-					<Container>
-						<p>{singleBoard.name}</p>
-						<span>
-							<IconButton onClick={() => handleOpenModal(singleBoard)} size="small">
-								<Icon>edit</Icon>
-							</IconButton>
-						</span>
+						<Container>
+							<EditableInput text={task}
+								placeholder="Write a task name"
+								childRef={inputRef}
+								type="input">
+								<input
+									ref={inputRef}
+									type="text"
+									name="task"
+									placeholder="Write a task name"
+									value={task}
+									onChange={handleNameChange(singleBoard)}
+								/>
+							</EditableInput>
+							<span>
+								<IconButton onClick={() => handleOpenModal(singleBoard)} size="small">
+									<Icon>edit</Icon>
+								</IconButton>
+							</span>
 						</Container>
 						<Button
-						variant="outline-light"
-						size="xs"
-						onClick={() => setCollapseStatus(!collapseStatus)}
-						className="collapse-button"
-					>
-						<span>Collapse</span>
-					</Button>
+							variant="outline-light"
+							size="xs"
+							onClick={() => setCollapseStatus(!collapseStatus)}
+							className="collapse-button"
+						>
+							<span>Collapse</span>
+						</Button>
 					</Container>
 					{!collapseStatus && (<Button variant="outline-light" size="sm" onClick={() => addBoardItem(singleBoard.id)}>
 						<span>Add an item</span>
@@ -130,7 +160,7 @@ export default function Board({ singleBoard, toggleDisplay }) {
 					>
 						<span>Delete the board</span>
 					</Button>)}
-					
+
 				</Container>
 				{!collapseStatus && boardItems.map((boardItem) => {
 					return <BoardItem key={boardItem.id} boardItem={boardItem} boardId={singleBoard.id} />;

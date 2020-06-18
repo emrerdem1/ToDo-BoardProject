@@ -7,8 +7,8 @@ export default function EditBoard({ isOpen, closeModal, selectedItem }) {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = data => {
-    db.collection('boards').doc(selectedItem.id).set({
-      ...selectedItem,
+    console.log(data)
+    db.collection('boards').doc(selectedItem.id).update({
       ...data
     });
     closeModal();

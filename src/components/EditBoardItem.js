@@ -11,9 +11,8 @@ export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardI
   const [priorities, setPriorities] = useState([]);
   const [statuses] = useContext(BoardStore);
   const [values, setValues] = useState({ status: '', priority: '' });
-  const [selectedDate, setSelectedDate] = useState(
-    new Date("2020-01-01T00:00:00")
-  );
+  const [selectedDate, setSelectedDate] = useState(selectedItem.dueDate ? new Date(selectedItem?.dueDate?.seconds * 1000) : new Date("2020-01-01T00:00:00"));
+
 
   useEffect(() => {
     db.collection("priorities").orderBy('value').onSnapshot(collection => {
@@ -66,11 +65,14 @@ export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardI
   };
 
   const changeStatus = (id, data) => {
-    db.collection("boards").doc(boardId).collection("boardItems").doc(selectedItem.id).delete();
-    db.collection("boards").doc(id).collection("boardItems").add({
-      ...data,
-      position: statuses.length + 1
-    })
+    if (id) {
+
+      db.collection("boards").doc(boardId).collection("boardItems").doc(selectedItem.id).delete();
+      db.collection("boards").doc(id).collection("boardItems").add({
+        ...data,
+        position: statuses.length + 1
+      });
+    }
   }
 
   return (
