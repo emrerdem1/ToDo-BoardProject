@@ -52,10 +52,10 @@
 .board-item {
 	margin: 0 0 10px 0;
 	padding: 0;
-	transition: all .5s ease-in-out;
+	transition: all 0.5s ease-in-out;
 }
 .board-item_false {
-	display:none;
+	display: none;
 }
 .board-item_nested {
 	width: 65%;
@@ -67,13 +67,14 @@
 	padding: 10px;
 	border-radius: 5px;
 	text-align: center;
-	display: "flex";
-	justify-content: "space-between";
-	transition: all .5s ease-in-out;
+	display: 'flex';
+	justify-content: 'space-between';
+	transition: all 0.5s ease-in-out;
+	height: auto !important;
 }
 .collapseStatus_false {
-	height: 50px; 
-     width: 150px !important;
+	height: 50px;
+	width: 150px !important;
 }
 .edit-delete-buttons {
 	position: absolute !important;
@@ -106,5 +107,8 @@
 	height: 10px;
 }
 .MuiPaper-root {
-	box-shadow: 0px 0px 0px 2000px rgba(0,0,0,0.85) !important;
+	box-shadow: 0px 0px 0px 2000px rgba(0, 0, 0, 0.85) !important;
+}
+.collapse-height {
+	max-height: 100px !important;
 }
