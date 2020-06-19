@@ -1,39 +1,28 @@
 import React from 'react';
-import { Navbar, Button, Form, Nav, FormControl } from 'react-bootstrap';
-import { defaultStyle } from './DefaultStyle';
+import { Navbar, Button, Form, Nav, FormControl, Image } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+
 const NavBar = () => {
 	return (
-		<Navbar bg="dark" variant="dark" fixed="top" style={defaultStyle}>
-			<Navbar.Brand>
-				<NavLink exact to="/" className="nav-inactive">
-					Burak & Emre
-				</NavLink>
-			</Navbar.Brand>
-			<Navbar.Toggle aria-controls="basic-navbar-nav" />
-			<Navbar.Collapse id="basic-navbar-nav">
-				<Nav className="mr-auto">
-					<Nav.Link>
-						<NavLink exact to="/" className="nav-inactive">
-							Home
-						</NavLink>
-					</Nav.Link>
-					<Nav.Link>
-						<NavLink to="/about" className="nav-inactive">
-							About
-						</NavLink>
-					</Nav.Link>
-					<Nav.Link>
-						<NavLink to="/progress" className="nav-inactive">
-							Progress
-						</NavLink>
-					</Nav.Link>
-				</Nav>
-				<Form inline>
-					<FormControl type="text" placeholder="Search" className="mr-sm-2" />
-					<Button variant="outline-success">Search</Button>
-				</Form>
-			</Navbar.Collapse>
+		<Navbar variant="dark" className="d-flex flex-column">
+			<Image src="https://i.imgyukle.com/2020/06/20/CHxJ0p.png" alt="logo"></Image>
+			<Nav className="mr-auto d-flex flex-column">
+				<Nav.Link>
+					<NavLink exact to="/" className="nav-inactive">
+						<i class="fas fa-home"></i>
+					</NavLink>
+				</Nav.Link>
+				<Nav.Link>
+					<NavLink to="/about" className="nav-inactive">
+						<i class="fas fa-info-circle"></i>
+					</NavLink>
+				</Nav.Link>
+				<Nav.Link>
+					<NavLink to="/progress" className="nav-inactive">
+						<i class="fas fa-tasks"></i>
+					</NavLink>
+				</Nav.Link>
+			</Nav>
 		</Navbar>
 	);
 };

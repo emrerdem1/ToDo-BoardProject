@@ -1,3 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap');
+#root {
+	display: flex;
+	min-height: 100vh;
+	background-color: #142a566b;
+	background-size: cover;
+}
+
+.cards {
+	display: flex;
+	margin-top: 1rem;
+}
+.card {
+	border: 1px solid black;
+}
 .App {
 	margin-top: 1rem;
 	text-align: center;
@@ -46,13 +61,24 @@
 	width: 33%;
 }
 .homepage-board {
-	margin-bottom: 15px;
-	padding: 0 5px !important;
+	margin: 0 5px 15px 5px !important;
+	background-color: #edeffd;
+	margin-right: 15px;
+	padding: 0 !important;
+	border-radius: 10px;
 }
 .board-item {
-	margin: 0 0 10px 0;
+	margin: auto !important;
 	padding: 0;
+	border-radius: 10px;
+	background-color: white;
 	transition: all 0.5s ease-in-out;
+	padding-right: 10px !important;
+	padding-left: 10px !important;
+	margin-bottom: 10px !important;
+	width: 92% !important;
+	font-family: 'Balsamiq Sans', cursive;
+	font-size: 85%;
 }
 .board-item_false {
 	display: none;
@@ -62,8 +88,8 @@
 	padding: 10px 0 0 0 !important;
 }
 .board-description {
-	background-color: #21d4fd;
-	background-image: linear-gradient(19deg, #21d4fd 0%, #5c21ff9a 100%);
+	/*background-color: #21d4fd;
+	background-image: linear-gradient(19deg, #21d4fd 0%, #5c21ff9a 100%);*/
 	padding: 10px;
 	border-radius: 5px;
 	text-align: center;
@@ -71,6 +97,7 @@
 	justify-content: 'space-between';
 	transition: all 0.5s ease-in-out;
 	height: auto !important;
+	margin: auto !important;
 }
 .collapseStatus_false {
 	height: 50px;
@@ -111,4 +138,59 @@
 }
 .collapse-height {
 	max-height: 100px !important;
+}
+.boards-container {
+	width: calc(100% - 50px) !important;
+	margin: 0 10px 10px 10px !important;
+	padding: 10px;
+}
+.navbar {
+	height: inherit !important;
+	padding: 0 !important;
+	position: relative;
+	width: 150px;
+	background-color: #190f52 !important;
+}
+.navbar-brand {
+	margin: 10px 0 0 0 !important;
+	padding: 10px !important;
+	line-height: 50px;
+	font-size: 110%;
+}
+img {
+	margin-top: 10px;
+	width: 150px;
+}
+
+.navbar-nav {
+	margin: 0 !important;
+	width: 100%;
+	text-align: center;
+}
+.navbar-nav > .nav-link,
+a {
+	line-height: 60px;
+	text-decoration: none;
+}
+.navbar-nav > .nav-link:hover {
+	margin-left: 40px;
+	color: #00000096;
+	background-color: #9ca5b8;
+	background-size: cover;
+}
+.nav-inactive {
+	display: block;
+}
+.nav-inactive:hover {
+	text-decoration: none;
+	color: #00000096;
+}
+.col-xl-3 {
+	max-width: 24% !important;
+}
+.board-item_defaults {
+	color: #00000096;
+}
+.fas {
+	font-size: 25px;
 }

@@ -4,7 +4,7 @@ import db from './../firebaseConfig';
 import { Col, Container, Button } from 'react-bootstrap';
 import { IconButton, Icon } from '@material-ui/core';
 import EditBoard from './EditBoard';
-import customClasses from "classnames";
+import customClasses from 'classnames';
 import EditableInput from './Editable/EditableInput';
 
 export default function Board({ singleBoard, toggleDisplay }) {
@@ -12,26 +12,28 @@ export default function Board({ singleBoard, toggleDisplay }) {
 	const [boardItems, setBoardItems] = useState([]);
 	const [selectedItem, setSelectedItem] = useState(null);
 	const [collapseStatus, setCollapseStatus] = useState(false);
-	const [task, setTask] = useState("");
+	const [task, setTask] = useState('');
 	const inputRef = useRef();
 
 	useEffect(() => {
-		db.collection(`boards/${singleBoard.id}/boardItems`).orderBy('position').onSnapshot((collection) => {
-			const data = collection.docs.map((doc, index) => {
-				const docData = { ...doc.data() };
-				if (docData.position !== index + 1) docData.position = index + 1;
-				return {
-					...docData,
-					id: doc.id
-				};
+		db.collection(`boards/${singleBoard.id}/boardItems`)
+			.orderBy('position')
+			.onSnapshot((collection) => {
+				const data = collection.docs.map((doc, index) => {
+					const docData = { ...doc.data() };
+					if (docData.position !== index + 1) docData.position = index + 1;
+					return {
+						...docData,
+						id: doc.id
+					};
+				});
+				setBoardItems([...data]);
 			});
-			setBoardItems([...data]);
-		});
 	}, [singleBoard]);
 
 	useEffect(() => {
-		setTask(singleBoard?.name)
-	}, [singleBoard])
+		setTask(singleBoard?.name);
+	}, [singleBoard]);
 
 	const addBoardItem = (boardId) => {
 		db.collection(`boards/${boardId}/boardItems`).add({
@@ -78,7 +80,7 @@ export default function Board({ singleBoard, toggleDisplay }) {
 		}
 	};
 
-	const handleNameChange = board => event => {
+	const handleNameChange = (board) => (event) => {
 		const name = event.target.value;
 		setTask(name);
 		db.doc(`boards/${board.id}`).update({
@@ -117,15 +119,13 @@ export default function Board({ singleBoard, toggleDisplay }) {
 					e.preventDefault();
 				}}
 			>
-				<Container style={{ flexBasis: '20%' }} className={
-					customClasses(`board-description`,
-						{ collapseStatus_false: collapseStatus })}>
+				<Container
+					style={{ flexBasis: '20%' }}
+					className={customClasses(`board-description`, { collapseStatus_false: collapseStatus })}
+				>
 					<Container className="user-board-input">
 						<Container>
-							<EditableInput text={task}
-								placeholder="Write a task name"
-								childRef={inputRef}
-								type="input">
+							<EditableInput text={task} placeholder="Write a task name" childRef={inputRef} type="input">
 								<input
 									ref={inputRef}
 									type="text"
@@ -142,7 +142,7 @@ export default function Board({ singleBoard, toggleDisplay }) {
 							</span>
 						</Container>
 						<Button
-							variant="outline-light"
+							variant="outline-dark"
 							size="xs"
 							onClick={() => setCollapseStatus(!collapseStatus)}
 							className="collapse-button"
@@ -151,13 +151,13 @@ export default function Board({ singleBoard, toggleDisplay }) {
 						</Button>
 					</Container>
 					{!collapseStatus && (
-						<Button variant="outline-light" size="sm" onClick={() => addBoardItem(singleBoard.id)}>
+						<Button variant="outline-dark" size="sm" onClick={() => addBoardItem(singleBoard.id)}>
 							<span>Add an item</span>
 						</Button>
 					)}
 					{!collapseStatus && (
 						<Button
-							variant="outline-light"
+							variant="outline-dark"
 							size="sm"
 							onClick={() => deleteBoard(singleBoard.id)}
 							className="ml-2"
