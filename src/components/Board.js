@@ -4,16 +4,17 @@ import db from './../firebaseConfig';
 import { Grid, Row, Col, Container, Button } from 'react-bootstrap';
 import { IconButton, Icon } from '@material-ui/core';
 import EditBoard from './EditBoard';
-import customClasses from "classnames";
+import customClasses from 'classnames';
 
 export default function Board({ singleBoard, toggleDisplay }) {
-	const [ showModal, setShowModal ] = useState(false);
-	const [ boardItems, setBoardItems ] = useState([]);
-	const [ selectedItem, setSelectedItem ] = useState(null);
+	const [showModal, setShowModal] = useState(false);
+	const [boardItems, setBoardItems] = useState([]);
+	const [selectedItem, setSelectedItem] = useState(null);
 	const [collapseStatus, setCollapseStatus] = useState(false);
-	useEffect(
-		() => {
-			db.collection(`boards/${singleBoard.id}/boardItems`).orderBy('position').onSnapshot((collection) => {
+	useEffect(() => {
+		db.collection(`boards/${singleBoard.id}/boardItems`)
+			.orderBy('position')
+			.onSnapshot((collection) => {
 				const data = collection.docs.map((doc, index) => {
 					const docData = { ...doc.data() };
 					if (docData.position !== index + 1) docData.position = index + 1;
@@ -22,11 +23,9 @@ export default function Board({ singleBoard, toggleDisplay }) {
 						id: doc.id
 					};
 				});
-				setBoardItems([ ...data ]);
+				setBoardItems([...data]);
 			});
-		},
-		[ singleBoard ]
-	);
+	}, [singleBoard]);
 
 	const addBoardItem = (boardId) => {
 		db.collection(`boards/${boardId}/boardItems`).add({
@@ -68,13 +67,15 @@ export default function Board({ singleBoard, toggleDisplay }) {
 	};
 	const toggleClasses = {
 		initial: 'col-xs-11 col-sm-6 col-md-4 col-lg-3 col-xl-3',
-		listView: 'col-11'
+		listView: 'col-11 d-flex'
 	};
 	return (
 		<React.Fragment>
 			{showModal && <EditBoard isOpen={showModal} closeModal={handleCloseModal} selectedItem={selectedItem} />}
 			<Col
-				className={`homepage-board ${toggleDisplay ? toggleClasses.listView : toggleClasses.initial}`}
+				className={`homepage-board 
+				${toggleDisplay ? toggleClasses.listView : toggleClasses.initial}
+				${collapseStatus && 'collapse-height'}`}
 				draggable
 				onDrop={(e) => {
 					if (e.dataTransfer.getData('position')) {
@@ -98,43 +99,48 @@ export default function Board({ singleBoard, toggleDisplay }) {
 					e.preventDefault();
 				}}
 			>
-				<Container  className={
-					customClasses(`board-description`, 
-					{collapseStatus_false: collapseStatus})}> 
+				<Container
+					style={{ flexBasis: '20%' }}
+					className={customClasses(`board-description`, { collapseStatus_false: collapseStatus })}
+				>
 					<Container className="user-board-input">
-					<Container>
-						<p>{singleBoard.name}</p>
-						<span>
-							<IconButton onClick={() => handleOpenModal(singleBoard)} size="small">
-								<Icon>edit</Icon>
-							</IconButton>
-						</span>
+						<Container>
+							<p>{singleBoard.name}</p>
+							<span>
+								<IconButton onClick={() => handleOpenModal(singleBoard)} size="small">
+									<Icon>edit</Icon>
+								</IconButton>
+							</span>
 						</Container>
 						<Button
-						variant="outline-light"
-						size="xs"
-						onClick={() => setCollapseStatus(!collapseStatus)}
-						className="collapse-button"
-					>
-						<span>Collapse</span>
-					</Button>
+							variant="outline-light"
+							size="xs"
+							onClick={() => setCollapseStatus(!collapseStatus)}
+							className="collapse-button"
+						>
+							<span>Collapse</span>
+						</Button>
 					</Container>
-					{!collapseStatus && (<Button variant="outline-light" size="sm" onClick={() => addBoardItem(singleBoard.id)}>
-						<span>Add an item</span>
-					</Button>)}
-					{!collapseStatus && (<Button
-						variant="outline-light"
-						size="sm"
-						onClick={() => deleteBoard(singleBoard.id)}
-						className="ml-2"
-					>
-						<span>Delete the board</span>
-					</Button>)}
-					
+					{!collapseStatus && (
+						<Button variant="outline-light" size="sm" onClick={() => addBoardItem(singleBoard.id)}>
+							<span>Add an item</span>
+						</Button>
+					)}
+					{!collapseStatus && (
+						<Button
+							variant="outline-light"
+							size="sm"
+							onClick={() => deleteBoard(singleBoard.id)}
+							className="ml-2"
+						>
+							<span>Delete the board</span>
+						</Button>
+					)}
 				</Container>
-				{!collapseStatus && boardItems.map((boardItem) => {
-					return <BoardItem key={boardItem.id} boardItem={boardItem} boardId={singleBoard.id} />;
-				})}
+				{!collapseStatus &&
+					boardItems.map((boardItem) => {
+						return <BoardItem key={boardItem.id} boardItem={boardItem} boardId={singleBoard.id} />;
+					})}
 			</Col>
 		</React.Fragment>
 	);
