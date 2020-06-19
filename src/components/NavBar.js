@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Navbar, Button, Form, Nav, FormControl } from 'react-bootstrap';
 import { defaultStyle } from './DefaultStyle';
 import { NavLink } from 'react-router-dom';

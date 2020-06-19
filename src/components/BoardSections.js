@@ -1,11 +1,13 @@
 import React, { useState, useEffect, createContext } from 'react';
 import db from '../firebaseConfig';
 
-export const BoardStore = React.createContext();
+export const BoardStore = createContext();
+export const PriorityStore = createContext();
 
 export const BoardSections = ({ children }) => {
 
 	const [boards, setBoards] = useState([]);
+	const [priorities, setPriorities] = useState([]);
 
 	console.log(boards)
 
@@ -19,11 +21,22 @@ export const BoardSections = ({ children }) => {
 			});
 			setBoards([...data]);
 		});
+		db.collection("priorities").orderBy('value').onSnapshot(collection => {
+			const data = collection.docs.map(doc => {
+				return {
+					...doc.data(),
+					id: doc.id,
+				};
+			});
+			setPriorities([...data]);
+		});
 	}, []);
 
 	return (
-		<BoardStore.Provider value={[boards, setBoards]}>
-			{children}
+		<BoardStore.Provider value={[boards]}>
+			<PriorityStore.Provider value={[priorities]}>
+				{children}
+			</PriorityStore.Provider>
 		</BoardStore.Provider>
 	)
 };

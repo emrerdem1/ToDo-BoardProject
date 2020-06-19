@@ -8,11 +8,11 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { BoardSections } from './components/BoardSections';
 
 ReactDOM.render(
-		<BoardSections>
-			<Router>
-				<App />
-			</Router>
-		</BoardSections>,
+	<BoardSections>
+		<Router>
+			<App />
+		</Router>
+	</BoardSections>,
 	document.getElementById('root')
 );
 

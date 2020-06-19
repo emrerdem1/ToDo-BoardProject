@@ -1,34 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import db from './../firebaseConfig';
 import EditBoardItem from './EditBoardItem';
-import { Grid, Row, Col, Container, Button, ButtonGroup } from 'react-bootstrap';
-import { BoardStore } from './BoardSections';
+import { Container, Button, ButtonGroup } from 'react-bootstrap';
+import { BoardStore, PriorityStore } from './BoardSections';
 
 const BoardItem = ({ boardItem, boardId }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [priorities, setPriorities] = useState([]);
+  const [priorities] = useContext(PriorityStore);
   const [statuses] = useContext(BoardStore);
-  const date = boardItem.dueDate ? new Date(boardItem?.dueDate?.seconds * 1000) : '';
-
-  useEffect(() => {
-    db.collection("priorities").orderBy('value').onSnapshot(collection => {
-      const data = collection.docs.map(doc => {
-        return {
-          ...doc.data(),
-          id: doc.id,
-        };
-      });
-      setPriorities([...data]);
-    });
-  }, [])
-
-  // useEffect(() => {
-  //   if (boardItem.dueDate) {
-  //     console.log(new Date(boardItem?.dueDate.seconds * 1000))
-  //   }
-  // }, [boardItem])
-
+  // const date = boardItem.dueDate ? new Date(boardItem?.dueDate?.seconds * 1000) : '';
 
   const deleteBoardItem = id => {
     db.doc(`boards/${boardId}/boardItems/${id}`).delete();
@@ -71,7 +52,7 @@ const BoardItem = ({ boardItem, boardId }) => {
             <h6>id: {boardItem.id}</h6>
           </div>
           <ButtonGroup className="edit-delete-buttons">
-            <Button 
+            <Button
               variant="outline-warning"
               size="sm"
               style={{ marginRight: '3px' }}

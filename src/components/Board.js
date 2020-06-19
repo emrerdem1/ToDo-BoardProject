@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import BoardItem from './BoardItem';
 import db from './../firebaseConfig';
-import { Grid, Row, Col, Container, Button } from 'react-bootstrap';
+import { Col, Container, Button } from 'react-bootstrap';
 import { IconButton, Icon } from '@material-ui/core';
 import EditBoard from './EditBoard';
 import customClasses from "classnames";
@@ -14,6 +14,7 @@ export default function Board({ singleBoard, toggleDisplay }) {
 	const [collapseStatus, setCollapseStatus] = useState(false);
 	const [task, setTask] = useState("");
 	const inputRef = useRef();
+
 	useEffect(() => {
 		db.collection(`boards/${singleBoard.id}/boardItems`).orderBy('position').onSnapshot((collection) => {
 			const data = collection.docs.map((doc, index) => {
@@ -71,6 +72,7 @@ export default function Board({ singleBoard, toggleDisplay }) {
 			db.doc(`boards/${id}/boardItems/${incoming.id}`).delete();
 			db.collection(`boards/${current.id}/boardItems`).add({
 				...incoming,
+				status: current.position,
 				position: boardItems.length + 1
 			});
 		}

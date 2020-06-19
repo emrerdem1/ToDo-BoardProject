@@ -4,27 +4,14 @@ import { useForm } from 'react-hook-form';
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider, KeyboardDatePicker, } from "@material-ui/pickers";
 import db from "./../firebaseConfig";
-import { BoardStore } from './BoardSections';
+import { BoardStore, PriorityStore } from './BoardSections';
 
 export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardId }) {
   const { register, handleSubmit } = useForm();
-  const [priorities, setPriorities] = useState([]);
+  const [priorities] = useContext(PriorityStore);
   const [statuses] = useContext(BoardStore);
   const [values, setValues] = useState({ status: '', priority: '' });
-  const [selectedDate, setSelectedDate] = useState(selectedItem.dueDate ? new Date(selectedItem?.dueDate?.seconds * 1000) : new Date("2020-01-01T00:00:00"));
-
-
-  useEffect(() => {
-    db.collection("priorities").orderBy('value').onSnapshot(collection => {
-      const data = collection.docs.map(doc => {
-        return {
-          ...doc.data(),
-          id: doc.id,
-        };
-      });
-      setPriorities([...data]);
-    });
-  }, [])
+  const [selectedDate, setSelectedDate] = useState(selectedItem.dueDate ? new Date(selectedItem?.dueDate?.seconds * 1000) : new Date());
 
   useEffect(() => {
     setValues({ status: selectedItem.status ? selectedItem.status : '', priority: selectedItem.priority ? selectedItem.priority : '' });
@@ -66,7 +53,6 @@ export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardI
 
   const changeStatus = (id, data) => {
     if (id) {
-
       db.collection("boards").doc(boardId).collection("boardItems").doc(selectedItem.id).delete();
       db.collection("boards").doc(id).collection("boardItems").add({
         ...data,

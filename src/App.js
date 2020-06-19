@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react';
-import ReactDOM from 'react-dom';
 import './App.css';
 import RouteBlock from './components/RouteBlock';
 import NavBar from './components/NavBar';
 
-const App = (props) => {
+const App = () => {
 	return (
 		<Fragment>
 			<NavBar />
