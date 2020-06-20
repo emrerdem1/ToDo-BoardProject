@@ -50,8 +50,10 @@ export default function Board({ singleBoard, toggleDisplay }) {
 		});
 	};
 
-	const deleteBoard = (boardId) => {
-		db.doc(`boards/${boardId}`).delete();
+	const deleteBoard = (singleBoard) => {
+		if (singleBoard?.name !== 'done') {
+			db.doc(`boards/${singleBoard?.id}`).delete();
+		}
 	};
 
 	const handleOpenModal = (board) => {
@@ -179,7 +181,7 @@ export default function Board({ singleBoard, toggleDisplay }) {
 							<Button
 								variant="outline-dark"
 								size="sm"
-								onClick={() => deleteBoard(singleBoard.id)}
+								onClick={() => deleteBoard(singleBoard)}
 								className="ml-2"
 							>
 								Delete the board

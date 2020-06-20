@@ -13,9 +13,11 @@ export const BoardSections = ({ children }) => {
 
 	useEffect(() => {
 		db.collection("boards").orderBy('position').onSnapshot(collection => {
-			const data = collection.docs.map(doc => {
+			const data = collection.docs.map((doc, index) => {
+				const docData = { ...doc.data() };
+				if (docData.position !== index + 1) docData.position = index + 1;
 				return {
-					...doc.data(),
+					...docData,
 					id: doc.id,
 				};
 			});
