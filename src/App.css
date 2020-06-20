@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Raleway:wght@300&display=swap');
 #root {
 	display: flex;
 	min-height: 100vh;
@@ -88,8 +89,8 @@
 	padding: 10px 0 0 0 !important;
 }
 .board-description {
-	/*background-color: #21d4fd;
-	background-image: linear-gradient(19deg, #21d4fd 0%, #5c21ff9a 100%);*/
+	position: relative;
+	min-height: 100px;
 	padding: 10px;
 	border-radius: 5px;
 	text-align: center;
@@ -97,7 +98,7 @@
 	justify-content: 'space-between';
 	transition: all 0.5s ease-in-out;
 	height: auto !important;
-	margin: auto !important;
+	margin: 20px 0 !important;
 }
 .collapseStatus_false {
 	height: 50px;
@@ -115,6 +116,8 @@
 	width: 68%;
 	display: flex;
 	justify-content: center;
+	margin-bottom: 10px;
+	padding: 0 !important;
 }
 .board-item_nested--id {
 	width: 67%;
@@ -177,6 +180,10 @@ a {
 	color: #00000096;
 	background-color: #9ca5b8;
 	background-size: cover;
+	border-radius: 13% 87% 0% 100% / 69% 7% 93% 31%;
+}
+.nav-link {
+	transition: all 0.4s ease-in-out;
 }
 .nav-inactive {
 	display: block;
@@ -193,4 +200,69 @@ a {
 }
 .fas {
 	font-size: 25px;
+}
+.collapse-button {
+	position: relative;
+	width: 25px;
+	border: 0 !important;
+	height: 25px;
+	text-align: center;
+}
+.fa-compress-arrows-alt {
+	font-size: 20px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-align: center;
+	margin: auto;
+	padding: 2px;
+}
+.edit-delete-buttons {
+	border: 0 !important;
+	margin-right: 5px;
+}
+.fa-edit,
+.fa-trash-alt {
+	font-size: 15px;
+}
+.btn-edit,
+.btn-del {
+	border-radius: 50% !important;
+	height: 30px;
+	width: 30px;
+}
+.MuiIcon-root {
+	font-size: 20px !important;
+}
+.user-board-input > section {
+	width: 100%;
+}
+.center-listview {
+	margin: 0 auto 15px auto !important;
+}
+.MuiButtonBase-root {
+	padding: 0;
+	width: 25px;
+}
+.del-and-edit_buttons {
+	position: absolute;
+	bottom: 10px;
+	left: 0;
+	padding: 0 !important;
+}
+.del-and-edit_buttons > button {
+	font-size: 75%;
+	white-space: nowrap;
+}
+.title-input {
+	font-family: 'Anton', sans-serif;
+}
+.title-input > div {
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	filter: drop-shadow(0 0 30px #4444dd);
+}
+.title-input > div > input {
+	text-transform: uppercase;
+	text-align: center;
 }

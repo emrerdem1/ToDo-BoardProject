@@ -90,7 +90,7 @@ export default function Board({ singleBoard, toggleDisplay }) {
 
 	const toggleClasses = {
 		initial: 'col-xs-11 col-sm-6 col-md-4 col-lg-3 col-xl-3',
-		listView: 'col-11 d-flex'
+		listView: 'col-11 d-flex center-listview'
 	};
 
 	return (
@@ -124,47 +124,51 @@ export default function Board({ singleBoard, toggleDisplay }) {
 					className={customClasses(`board-description`, { collapseStatus_false: collapseStatus })}
 				>
 					<Container className="user-board-input">
-						<Container>
-							<EditableInput text={task} placeholder="Write a task name" childRef={inputRef} type="input">
-								<input
-									ref={inputRef}
-									type="text"
-									name="task"
-									placeholder="Write a task name"
-									value={task}
-									onChange={handleNameChange(singleBoard)}
-								/>
-							</EditableInput>
-							<span>
-								<IconButton onClick={() => handleOpenModal(singleBoard)} size="small">
-									<Icon>edit</Icon>
-								</IconButton>
-							</span>
-						</Container>
+						<EditableInput
+							style={{ marginRight: '5px', minWidth: '150px' }}
+							text={task}
+							placeholder="Write a task name"
+							childRef={inputRef}
+							type="input"
+						>
+							<input
+								ref={inputRef}
+								type="text"
+								name="task"
+								placeholder="Write a task name"
+								value={task}
+								onChange={handleNameChange(singleBoard)}
+							/>
+						</EditableInput>
+						<IconButton onClick={() => handleOpenModal(singleBoard)} size="small">
+							<Icon>edit</Icon>
+						</IconButton>
 						<Button
 							variant="outline-dark"
 							size="xs"
 							onClick={() => setCollapseStatus(!collapseStatus)}
 							className="collapse-button"
 						>
-							<span>Collapse</span>
+							<i class="fas fa-compress-arrows-alt" style={{ fontSize: '20px' }}></i>
 						</Button>
 					</Container>
-					{!collapseStatus && (
-						<Button variant="outline-dark" size="sm" onClick={() => addBoardItem(singleBoard.id)}>
-							<span>Add an item</span>
-						</Button>
-					)}
-					{!collapseStatus && (
-						<Button
-							variant="outline-dark"
-							size="sm"
-							onClick={() => deleteBoard(singleBoard.id)}
-							className="ml-2"
-						>
-							<span>Delete the board</span>
-						</Button>
-					)}
+					<Container className="del-and-edit_buttons">
+						{!collapseStatus && (
+							<Button variant="outline-dark" size="sm" onClick={() => addBoardItem(singleBoard.id)}>
+								Add an item
+							</Button>
+						)}
+						{!collapseStatus && (
+							<Button
+								variant="outline-dark"
+								size="sm"
+								onClick={() => deleteBoard(singleBoard.id)}
+								className="ml-2"
+							>
+								Delete the board
+							</Button>
+						)}
+					</Container>
 				</Container>
 				{!collapseStatus &&
 					boardItems.map((boardItem) => {

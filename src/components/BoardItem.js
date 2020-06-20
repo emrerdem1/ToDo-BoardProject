@@ -63,15 +63,21 @@ const BoardItem = ({ boardItem, boardId }) => {
 					</div>
 					<ButtonGroup className="edit-delete-buttons">
 						<Button
+							className="btn-edit"
 							variant="outline-warning"
 							size="sm"
 							style={{ marginRight: '3px' }}
 							onClick={() => handleOpenModal(boardItem)}
 						>
-							Edit
+							<i class="fas fa-edit"></i>
 						</Button>
-						<Button variant="outline-danger" size="sm" onClick={() => deleteBoardItem(boardItem.id)}>
-							Delete
+						<Button
+							className="btn-del"
+							variant="outline-danger"
+							size="sm"
+							onClick={() => deleteBoardItem(boardItem.id)}
+						>
+							<i class="fas fa-trash-alt"></i>
 						</Button>
 					</ButtonGroup>
 				</Container>
@@ -79,7 +85,6 @@ const BoardItem = ({ boardItem, boardId }) => {
 					<p>
 						<span className="board-item_defaults">Title:</span> {boardItem?.title}
 					</p>{' '}
-					
 					<p>
 						<span className="board-item_defaults">Assignee:</span> {boardItem?.assignee}
 					</p>
