@@ -291,3 +291,6 @@ a {
 .center-listview > div {
 	height: 90% !important;
 }
+.sortIcon:hover{
+	cursor: pointer;
+}
