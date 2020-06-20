@@ -12,24 +12,31 @@ export default function Board({ singleBoard, toggleDisplay }) {
 	const [boardItems, setBoardItems] = useState([]);
 	const [selectedItem, setSelectedItem] = useState(null);
 	const [collapseStatus, setCollapseStatus] = useState(false);
-	const [task, setTask] = useState("");
+	const [task, setTask] = useState('');
 	const [sorting, setSorting] = useState('position');
 	const [sortType, setSortType] = useState('asc');
 	const inputRef = useRef();
-	const sortItems = [{ id: 1, value: 'position', name: 'Default' }, { id: 2, value: 'title', name: 'Title' }, { id: 3, value: 'dueDate', name: 'DueDate' }, { id: 4, value: 'priority', name: 'Priority' }];
+	const sortItems = [
+		{ id: 1, value: 'position', name: 'Default' },
+		{ id: 2, value: 'title', name: 'Title' },
+		{ id: 3, value: 'dueDate', name: 'DueDate' },
+		{ id: 4, value: 'priority', name: 'Priority' }
+	];
 
 	useEffect(() => {
-		db.collection(`boards/${singleBoard.id}/boardItems`).orderBy(sorting, sortType).onSnapshot((collection) => {
-			const data = collection.docs.map((doc, index) => {
-				const docData = { ...doc.data() };
-				if (docData.position !== index + 1) docData.position = index + 1;
-				return {
-					...docData,
-					id: doc.id
-				};
+		db.collection(`boards/${singleBoard.id}/boardItems`)
+			.orderBy(sorting, sortType)
+			.onSnapshot((collection) => {
+				const data = collection.docs.map((doc, index) => {
+					const docData = { ...doc.data() };
+					if (docData.position !== index + 1) docData.position = index + 1;
+					return {
+						...docData,
+						id: doc.id
+					};
+				});
+				setBoardItems([...data]);
 			});
-			setBoardItems([...data]);
-		});
 	}, [singleBoard, sorting, sortType]);
 
 	useEffect(() => {
@@ -89,13 +96,13 @@ export default function Board({ singleBoard, toggleDisplay }) {
 		});
 	};
 
-	const handleSortingChange = event => {
+	const handleSortingChange = (event) => {
 		setSorting(event.target.value);
 	};
 
-	const handleSortTypeChange = type => {
+	const handleSortTypeChange = (type) => {
 		setSortType(type);
-	}
+	};
 
 	const toggleClasses = {
 		initial: 'col-xs-11 col-sm-6 col-md-4 col-lg-3 col-xl-3',
@@ -178,35 +185,40 @@ export default function Board({ singleBoard, toggleDisplay }) {
 								Delete the board
 							</Button>
 						)}
-						<div style={{ width: '100' }} className="mt-3 d-flex justify-content-center sort-class">
-							<TextField
-								style={{ width: 150 }}
-								select
-								label="Sort By"
-								name="sort"
-								value={sorting}
-								onChange={handleSortingChange}
-								SelectProps={{
-									MenuProps: {
-										PaperProps: {
-											style: {
-												maxHeight: 250
+						{!collapseStatus && (
+							<div style={{ width: '100' }} className="mt-3 d-flex justify-content-center sort-class">
+								<TextField
+									style={{ width: 150 }}
+									select
+									label="Sort By"
+									name="sort"
+									value={sorting}
+									onChange={handleSortingChange}
+									SelectProps={{
+										MenuProps: {
+											PaperProps: {
+												style: {
+													maxHeight: 250
+												}
 											}
 										}
-									}
-								}}
-							>
-								{sortItems.map(({ id, name, value }) => (
-									<MenuItem key={id} value={value}>
-										{name}
-									</MenuItem>
-								))}
-							</TextField>
-							<div className="d-flex align-items-center ml-3">
-								<i class="fas fa-sort-up sortIcon" onClick={() => handleSortTypeChange('asc')}></i>
-								<i class="fas fa-sort-down ml-2 sortIcon" onClick={() => handleSortTypeChange('desc')}></i>
+									}}
+								>
+									{sortItems.map(({ id, name, value }) => (
+										<MenuItem key={id} value={value}>
+											{name}
+										</MenuItem>
+									))}
+								</TextField>
+								<div className="d-flex align-items-center ml-3">
+									<i class="fas fa-sort-up sortIcon" onClick={() => handleSortTypeChange('asc')}></i>
+									<i
+										class="fas fa-sort-down ml-2 sortIcon"
+										onClick={() => handleSortTypeChange('desc')}
+									></i>
+								</div>
 							</div>
-						</div>
+						)}
 					</Container>
 				</Container>
 				{!collapseStatus &&
