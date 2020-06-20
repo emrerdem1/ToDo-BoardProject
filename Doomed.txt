@@ -1,7 +1,7 @@
--done butonu
--board item textler input olarak düzenlenebilir olacak
--id yerine title gelecek, subtitle eklenecek
--board item title, duedate, priority göre sıralama
+-done butonu +
+-board item textler input olarak düzenlenebilir olacak +
+-id yerine title gelecek, subtitle eklenecek +
+-board item title, duedate, priority göre sıralama +
 
 -board item collapse ,sadece title gözükmesi collapsede(emre)
 

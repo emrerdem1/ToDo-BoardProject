@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import BoardItem from './BoardItem';
 import db from './../firebaseConfig';
 import { Col, Container, Button } from 'react-bootstrap';
-import { IconButton, Icon } from '@material-ui/core';
+import { IconButton, Icon, TextField, MenuItem } from '@material-ui/core';
 import EditBoard from './EditBoard';
 import customClasses from "classnames";
 import EditableInput from './Editable/EditableInput';
@@ -13,10 +13,14 @@ export default function Board({ singleBoard, toggleDisplay }) {
 	const [selectedItem, setSelectedItem] = useState(null);
 	const [collapseStatus, setCollapseStatus] = useState(false);
 	const [task, setTask] = useState("");
+	const [sorting, setSorting] = useState('position');
+	const [sortType, setSortType] = useState('asc');
 	const inputRef = useRef();
+	const sortItems = [{ id: 1, value: 'position', name: 'Default' }, { id: 2, value: 'title', name: 'Title' }, { id: 3, value: 'dueDate', name: 'DueDate' }, { id: 4, value: 'priority', name: 'Priority' }];
+	const sortTypes = [{ id: 1, value: 'asc', name: 'Ascending' }, { id: 2, value: 'desc', name: 'Descending' }];
 
 	useEffect(() => {
-		db.collection(`boards/${singleBoard.id}/boardItems`).orderBy('position').onSnapshot((collection) => {
+		db.collection(`boards/${singleBoard.id}/boardItems`).orderBy(sorting, sortType).onSnapshot((collection) => {
 			const data = collection.docs.map((doc, index) => {
 				const docData = { ...doc.data() };
 				if (docData.position !== index + 1) docData.position = index + 1;
@@ -27,7 +31,7 @@ export default function Board({ singleBoard, toggleDisplay }) {
 			});
 			setBoardItems([...data]);
 		});
-	}, [singleBoard]);
+	}, [singleBoard, sorting, sortType]);
 
 	useEffect(() => {
 		setTask(singleBoard?.name)
@@ -85,6 +89,14 @@ export default function Board({ singleBoard, toggleDisplay }) {
 			name
 		});
 	};
+
+	const handleSortingChange = event => {
+		setSorting(event.target.value);
+	};
+
+	const handleSortTypeChange = event => {
+		setSortType(event.target.value);
+	}
 
 	const toggleClasses = {
 		initial: 'col-xs-11 col-sm-6 col-md-4 col-lg-3 col-xl-3',
@@ -165,6 +177,52 @@ export default function Board({ singleBoard, toggleDisplay }) {
 							<span>Delete the board</span>
 						</Button>
 					)}
+					<div style={{ width: '100' }} className="mt-3 d-flex justify-content-center">
+						<TextField
+							style={{ width: 150 }}
+							select
+							label="Sort By"
+							name="sort"
+							value={sorting}
+							onChange={handleSortingChange}
+							SelectProps={{
+								MenuProps: {
+									PaperProps: {
+										style: {
+											maxHeight: 250,
+										},
+									},
+								},
+							}}>
+							{sortItems.map(({ id, name, value }) => (
+								<MenuItem key={id} value={value}>
+									{name}
+								</MenuItem>
+							))}
+						</TextField>
+						<TextField
+							style={{ width: 150 }}
+							select
+							label="Sort Type"
+							name="sortType"
+							value={sortType}
+							onChange={handleSortTypeChange}
+							SelectProps={{
+								MenuProps: {
+									PaperProps: {
+										style: {
+											maxHeight: 250,
+										},
+									},
+								},
+							}}>
+							{sortTypes.map(({ id, name, value }) => (
+								<MenuItem key={id} value={value}>
+									{name}
+								</MenuItem>
+							))}
+						</TextField>
+					</div>
 				</Container>
 				{!collapseStatus &&
 					boardItems.map((boardItem) => {

@@ -1,18 +1,43 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import db from './../firebaseConfig';
 import EditBoardItem from './EditBoardItem';
 import { Container, Button, ButtonGroup } from 'react-bootstrap';
 import { BoardStore, PriorityStore } from './BoardSections';
+import EditableInput from './Editable/EditableInput';
 
 const BoardItem = ({ boardItem, boardId }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [priorities] = useContext(PriorityStore);
   const [statuses] = useContext(BoardStore);
+  const [task, setTask] = useState("");
+  const inputRef = useRef();
   // const date = boardItem.dueDate ? new Date(boardItem?.dueDate?.seconds * 1000) : '';
+
+  useEffect(() => {
+    setTask(boardItem?.title)
+  }, [boardItem])
 
   const deleteBoardItem = id => {
     db.doc(`boards/${boardId}/boardItems/${id}`).delete();
+  };
+
+  const doneBoardItem = (item) => {
+    const id = statuses.find(status => status.name === 'done')?.id;
+    db.doc(`boards/${boardId}/boardItems/${item.id}`).delete();
+    db.collection(`boards/${id}/boardItems`).add({
+      ...item,
+      status: 4,
+      position: 9999
+    })
+  };
+
+  const handleNameChange = item => event => {
+    const title = event.target.value;
+    setTask(title);
+    db.doc(`boards/${boardId}/boardItems/${item.id}`).update({
+      title
+    });
   };
 
   const handleOpenModal = boardItem => {
@@ -34,7 +59,7 @@ const BoardItem = ({ boardItem, boardId }) => {
       return `${date}-${month}-${year}`;
     }
     return '-'
-  }
+  };
 
   return (
     <React.Fragment>
@@ -49,9 +74,31 @@ const BoardItem = ({ boardItem, boardId }) => {
       }}>
         <Container className="board-item_nested" style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div className='board-item_nested--id'>
-            <h6>id: {boardItem.id}</h6>
+            <h6 className="text-center">
+              <EditableInput text={task}
+                placeholder="Write a task name"
+                childRef={inputRef}
+                type="input">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  name="task"
+                  placeholder="Write a task name"
+                  value={task}
+                  onChange={handleNameChange(boardItem)}
+                />
+              </EditableInput>
+            </h6>
           </div>
           <ButtonGroup className="edit-delete-buttons">
+            <Button
+              variant="outline-success"
+              size="sm"
+              style={{ marginRight: '3px' }}
+              onClick={() => doneBoardItem(boardItem)}
+            >
+              Done
+            </Button>
             <Button
               variant="outline-warning"
               size="sm"
@@ -66,7 +113,7 @@ const BoardItem = ({ boardItem, boardId }) => {
           </ButtonGroup>
         </Container>
         <Container className='board-item_object'>
-          <p>Title: {boardItem?.title}</p>
+          <p>SubTitle: {boardItem?.subTitle}</p>
           <p>Assignee: {boardItem?.assignee}</p>
           <p>Description: {boardItem?.description}</p>
           <p>Status: {boardItem.status && statuses.find(status => status.position === boardItem.status)?.name}</p>
