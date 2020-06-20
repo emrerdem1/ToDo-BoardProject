@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 const NavBar = () => {
 	return (
-		<Navbar variant="dark" className="d-flex flex-column">
+		<Navbar variant="dark" className="d-flex flex-column position-fixed">
 			<Image src="https://i.imgyukle.com/2020/06/20/CHxJ0p.png" alt="logo"></Image>
 			<Nav className="mr-auto d-flex flex-column">
 				<Nav.Link>

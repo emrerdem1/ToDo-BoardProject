@@ -118,6 +118,7 @@
 	justify-content: center;
 	margin-bottom: 10px;
 	padding: 0 !important;
+	min-width: 200px;
 }
 .board-item_nested--id {
 	width: 67%;
@@ -153,6 +154,8 @@
 	position: relative;
 	width: 150px;
 	background-color: #190f52 !important;
+	z-index: 10;
+	height: 100% !important;
 }
 .navbar-brand {
 	margin: 10px 0 0 0 !important;
@@ -265,4 +268,7 @@ a {
 .title-input > div > input {
 	text-transform: uppercase;
 	text-align: center;
+}
+.boards-container > .row {
+	margin-left: 140px !important;
 }
