@@ -63,6 +63,14 @@ const BoardItem = ({ boardItem, boardId }) => {
 
   return (
     <React.Fragment>
+      {showModal && (
+        <EditBoardItem
+          isOpen={showModal}
+          closeModal={handleCloseModal}
+          selectedItem={selectedItem}
+          boardId={boardId}
+        />
+      )}
       <Container
         className="board-item"
         draggable

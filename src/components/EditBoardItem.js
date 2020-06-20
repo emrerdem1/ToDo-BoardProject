@@ -66,7 +66,6 @@ export default function EditBoardItem({ isOpen, closeModal, selectedItem, boardI
       open={isOpen}
       onClose={() => {
         closeModal();
-        // setSelectedDate(new Date("2020-01-01T00:00:00"));
       }}
       maxWidth="xs"
       fullWidth>

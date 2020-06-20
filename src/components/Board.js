@@ -17,7 +17,6 @@ export default function Board({ singleBoard, toggleDisplay }) {
 	const [sortType, setSortType] = useState('asc');
 	const inputRef = useRef();
 	const sortItems = [{ id: 1, value: 'position', name: 'Default' }, { id: 2, value: 'title', name: 'Title' }, { id: 3, value: 'dueDate', name: 'DueDate' }, { id: 4, value: 'priority', name: 'Priority' }];
-	const sortTypes = [{ id: 1, value: 'asc', name: 'Ascending' }, { id: 2, value: 'desc', name: 'Descending' }];
 
 	useEffect(() => {
 		db.collection(`boards/${singleBoard.id}/boardItems`).orderBy(sorting, sortType).onSnapshot((collection) => {
@@ -94,8 +93,8 @@ export default function Board({ singleBoard, toggleDisplay }) {
 		setSorting(event.target.value);
 	};
 
-	const handleSortTypeChange = event => {
-		setSortType(event.target.value);
+	const handleSortTypeChange = type => {
+		setSortType(type);
 	}
 
 	const toggleClasses = {
@@ -202,28 +201,10 @@ export default function Board({ singleBoard, toggleDisplay }) {
 									</MenuItem>
 								))}
 							</TextField>
-							<TextField
-								style={{ width: 150 }}
-								select
-								label="Sort Type"
-								name="sortType"
-								value={sortType}
-								onChange={handleSortTypeChange}
-								SelectProps={{
-									MenuProps: {
-										PaperProps: {
-											style: {
-												maxHeight: 250,
-											},
-										},
-									},
-								}}>
-								{sortTypes.map(({ id, name, value }) => (
-									<MenuItem key={id} value={value}>
-										{name}
-									</MenuItem>
-								))}
-							</TextField>
+							<div className="d-flex align-items-center ml-3">
+								<i class="fas fa-sort-up sortIcon" onClick={() => handleSortTypeChange('asc')}></i>
+								<i class="fas fa-sort-down ml-2 sortIcon" onClick={() => handleSortTypeChange('desc')}></i>
+							</div>
 						</div>
 					</Container>
 
