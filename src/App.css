@@ -272,3 +272,6 @@ a {
 .boards-container > .row {
 	margin-left: 140px !important;
 }
+.boards-controller {
+	text-align: end;
+}
