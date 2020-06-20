@@ -97,7 +97,7 @@
 	display: 'flex';
 	justify-content: 'space-between';
 	transition: all 0.5s ease-in-out;
-	height: auto !important;
+	height: 160px !important;
 	margin: 20px 0 !important;
 }
 .collapseStatus_false {
@@ -225,11 +225,14 @@ a {
 	margin-right: 5px;
 }
 .fa-edit,
-.fa-trash-alt {
+.fa-trash-alt,
+.fa-check-circle {
 	font-size: 15px;
 }
+
 .btn-edit,
-.btn-del {
+.btn-del,
+.btn-outline-success {
 	border-radius: 50% !important;
 	height: 30px;
 	width: 30px;
@@ -274,4 +277,17 @@ a {
 }
 .boards-controller {
 	text-align: end;
+}
+.sort-class {
+	font-size: 75%;
+	white-space: nowrap;
+}
+.MuiInputLabel-root {
+	width: 100% !important;
+}
+.MuiSelect-selectMenu {
+	font-size: 85% !important;
+}
+.center-listview > div {
+	height: 90% !important;
 }

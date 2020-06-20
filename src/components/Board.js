@@ -165,13 +165,13 @@ export default function Board({ singleBoard, toggleDisplay }) {
 
 					<Container className="del-and-edit_buttons">
 						{!collapseStatus && (
-							<Button variant="outline-light" size="sm" onClick={() => addBoardItem(singleBoard.id)}>
+							<Button variant="outline-dark" size="sm" onClick={() => addBoardItem(singleBoard.id)}>
 								Add an item
 							</Button>
 						)}
 						{!collapseStatus && (
 							<Button
-								variant="outline-light"
+								variant="outline-dark"
 								size="sm"
 								onClick={() => deleteBoard(singleBoard.id)}
 								className="ml-2"
@@ -179,7 +179,7 @@ export default function Board({ singleBoard, toggleDisplay }) {
 								Delete the board
 							</Button>
 						)}
-						<div style={{ width: '100' }} className="mt-3 d-flex justify-content-center">
+						<div style={{ width: '100' }} className="mt-3 d-flex justify-content-center sort-class">
 							<TextField
 								style={{ width: 150 }}
 								select
@@ -191,11 +191,12 @@ export default function Board({ singleBoard, toggleDisplay }) {
 									MenuProps: {
 										PaperProps: {
 											style: {
-												maxHeight: 250,
-											},
-										},
-									},
-								}}>
+												maxHeight: 250
+											}
+										}
+									}
+								}}
+							>
 								{sortItems.map(({ id, name, value }) => (
 									<MenuItem key={id} value={value}>
 										{name}
@@ -213,11 +214,12 @@ export default function Board({ singleBoard, toggleDisplay }) {
 									MenuProps: {
 										PaperProps: {
 											style: {
-												maxHeight: 250,
-											},
-										},
-									},
-								}}>
+												maxHeight: 250
+											}
+										}
+									}
+								}}
+							>
 								{sortTypes.map(({ id, name, value }) => (
 									<MenuItem key={id} value={value}>
 										{name}
@@ -226,7 +228,6 @@ export default function Board({ singleBoard, toggleDisplay }) {
 							</TextField>
 						</div>
 					</Container>
-
 				</Container>
 				{!collapseStatus &&
 					boardItems.map((boardItem) => {
