@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Button, Form, Nav, FormControl, Image } from 'react-bootstrap';
+import { Navbar, Image, Nav } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
 const NavBar = () => {
@@ -7,21 +7,15 @@ const NavBar = () => {
 		<Navbar variant="dark" className="d-flex flex-column position-fixed">
 			<Image src="https://i.imgyukle.com/2020/06/20/CHxJ0p.png" alt="logo"></Image>
 			<Nav className="mr-auto d-flex flex-column">
-				<Nav.Link>
-					<NavLink exact to="/" className="nav-inactive">
-						<i class="fas fa-home"></i>
-					</NavLink>
-				</Nav.Link>
-				<Nav.Link>
-					<NavLink to="/about" className="nav-inactive">
-						<i class="fas fa-info-circle"></i>
-					</NavLink>
-				</Nav.Link>
-				<Nav.Link>
-					<NavLink to="/progress" className="nav-inactive">
-						<i class="fas fa-tasks"></i>
-					</NavLink>
-				</Nav.Link>
+				<NavLink exact to="/" className="nav-inactive nav-link">
+					<i className="fas fa-home"></i>
+				</NavLink>
+				<NavLink to="/about" className="nav-inactive nav-link">
+					<i className="fas fa-info-circle"></i>
+				</NavLink>
+				<NavLink to="/progress" className="nav-inactive nav-link">
+					<i className="fas fa-tasks"></i>
+				</NavLink>
 			</Nav>
 		</Navbar>
 	);

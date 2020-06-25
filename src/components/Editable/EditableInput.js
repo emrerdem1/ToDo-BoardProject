@@ -21,9 +21,9 @@ const EditableInput = ({ childRef, text, type, placeholder, children, ...props }
 	}, [isEditing, childRef]);
 
 	return (
-		<section {...props} className="title-input">
+		<section {...props} className="title-input text-center">
 			{isEditing ? (
-				<div onBlur={() => setEditing(false)} onKeyDown={(e) => handleKeyDown(e, type)}>
+				<div className="div_clicked" onBlur={() => setEditing(false)} onKeyDown={(e) => handleKeyDown(e, type)}>
 					{children}
 				</div>
 			) : (

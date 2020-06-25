@@ -6,6 +6,7 @@ import { IconButton, Icon, TextField, MenuItem } from '@material-ui/core';
 import EditBoard from './EditBoard';
 import customClasses from 'classnames';
 import EditableInput from './Editable/EditableInput';
+import { toggleClasses } from './DefaultStyle';
 
 export default function Board({ singleBoard, toggleDisplay }) {
 	const [showModal, setShowModal] = useState(false);
@@ -106,11 +107,6 @@ export default function Board({ singleBoard, toggleDisplay }) {
 		setSortType(type);
 	};
 
-	const toggleClasses = {
-		initial: 'col-xs-11 col-sm-6 col-md-4 col-lg-3 col-xl-3',
-		listView: 'col-11 d-flex center-listview'
-	};
-
 	return (
 		<React.Fragment>
 			{showModal && <EditBoard isOpen={showModal} closeModal={handleCloseModal} selectedItem={selectedItem} />}
@@ -151,12 +147,8 @@ export default function Board({ singleBoard, toggleDisplay }) {
 						>
 							<input
 								ref={inputRef}
-								type="text"
-								name="task"
-								placeholder="Write a task name"
-								value={task}
-								onChange={handleNameChange(singleBoard)}
-							/>
+								type="text" name="task" placeholder="Write a task name" value={task}
+								onChange={handleNameChange(singleBoard)}/>
 						</EditableInput>
 						<IconButton onClick={() => handleOpenModal(singleBoard)} size="small">
 							<Icon>edit</Icon>
@@ -167,7 +159,7 @@ export default function Board({ singleBoard, toggleDisplay }) {
 							onClick={() => setCollapseStatus(!collapseStatus)}
 							className="collapse-button"
 						>
-							<i class="fas fa-compress-arrows-alt" style={{ fontSize: '20px' }}></i>
+							<i className="fas fa-compress-arrows-alt" style={{ fontSize: '20px' }}></i>
 						</Button>
 					</Container>
 
@@ -188,7 +180,10 @@ export default function Board({ singleBoard, toggleDisplay }) {
 							</Button>
 						)}
 						{!collapseStatus && (
-							<div style={{ width: '100' }} className="mt-3 d-flex justify-content-center sort-class">
+							<Container
+								style={{ width: '100' }}
+								className="mt-3 d-flex justify-content-center sort-class"
+							>
 								<TextField
 									style={{ width: 150 }}
 									select
@@ -212,14 +207,17 @@ export default function Board({ singleBoard, toggleDisplay }) {
 										</MenuItem>
 									))}
 								</TextField>
-								<div className="d-flex align-items-center ml-3">
-									<i class="fas fa-sort-up sortIcon" onClick={() => handleSortTypeChange('asc')}></i>
+								<Container className="d-flex align-items-center ml-3">
 									<i
-										class="fas fa-sort-down ml-2 sortIcon"
+										className="fas fa-sort-up sortIcon"
+										onClick={() => handleSortTypeChange('asc')}
+									></i>
+									<i
+										className="fas fa-sort-down ml-2 sortIcon"
 										onClick={() => handleSortTypeChange('desc')}
 									></i>
-								</div>
-							</div>
+								</Container>
+							</Container>
 						)}
 					</Container>
 				</Container>
