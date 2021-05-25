@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import Board from './Board';
 import { BoardStore } from './BoardSections';
 import db from '../firebaseConfig';
-import { Row, Col, Button, Container } from 'react-bootstrap';
+import { Row, Button, Container } from 'react-bootstrap';
 
 const HomePage = () => {
   const [boards] = useContext(BoardStore);

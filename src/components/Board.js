@@ -8,6 +8,8 @@ import customClasses from 'classnames';
 import EditableInput from './Editable/EditableInput';
 import { toggleClasses } from './DefaultStyle';
 
+const MAX_CATEGORY_NAME_LENGTH = 20;
+
 export default function Board({ singleBoard, toggleDisplay }) {
   const [showModal, setShowModal] = useState(false);
   const [boardItems, setBoardItems] = useState([]);
@@ -151,9 +153,9 @@ export default function Board({ singleBoard, toggleDisplay }) {
           >
             <Container className="user-board-input">
               <EditableInput
-                style={{ marginRight: '5px', minWidth: '150px' }}
+                style={{ minWidth: '150px' }}
                 text={task}
-                placeholder="Write a task name"
+                placeholder="Write a category name"
                 childRef={inputRef}
                 type="input"
               >
@@ -161,28 +163,31 @@ export default function Board({ singleBoard, toggleDisplay }) {
                   ref={inputRef}
                   type="text"
                   name="task"
-                  placeholder="Write a task name"
+                  placeholder="Write a category name"
                   value={task}
                   onChange={handleNameChange(singleBoard)}
+                  maxLength={MAX_CATEGORY_NAME_LENGTH}
                 />
               </EditableInput>
-              <IconButton
-                onClick={() => handleOpenModal(singleBoard)}
-                size="small"
-              >
-                <Icon>edit</Icon>
-              </IconButton>
-              <Button
-                variant="outline-dark"
-                size="xs"
-                onClick={() => setCollapseStatus(!collapseStatus)}
-                className="collapse-button"
-              >
-                <i
-                  className="fas fa-compress-arrows-alt"
-                  style={{ fontSize: '20px' }}
-                ></i>
-              </Button>
+              <div className="header-icons">
+                <IconButton
+                  onClick={() => handleOpenModal(singleBoard)}
+                  size="small"
+                >
+                  <Icon>edit</Icon>
+                </IconButton>
+                <Button
+                  variant="outline-dark"
+                  size="xs"
+                  onClick={() => setCollapseStatus(!collapseStatus)}
+                  className="collapse-button"
+                >
+                  <i
+                    className="fas fa-compress-arrows-alt"
+                    style={{ fontSize: '20px' }}
+                  ></i>
+                </Button>
+              </div>
             </Container>
 
             <Container className="del-and-edit_buttons">
@@ -206,10 +211,7 @@ export default function Board({ singleBoard, toggleDisplay }) {
                 </Button>
               )}
               {!collapseStatus && (
-                <Container
-                  style={{ width: '100' }}
-                  className="mt-3 d-flex justify-content-center sort-class"
-                >
+                <Container className="sort-class">
                   <TextField
                     style={{ width: 150 }}
                     select
@@ -233,7 +235,7 @@ export default function Board({ singleBoard, toggleDisplay }) {
                       </MenuItem>
                     ))}
                   </TextField>
-                  <Container className="d-flex align-items-center ml-3">
+                  <div className="iconWrapper">
                     <i
                       className="fas fa-sort-up sortIcon"
                       onClick={() => handleSortTypeChange('asc')}
@@ -242,12 +244,11 @@ export default function Board({ singleBoard, toggleDisplay }) {
                       className="fas fa-sort-down ml-2 sortIcon"
                       onClick={() => handleSortTypeChange('desc')}
                     ></i>
-                  </Container>
+                  </div>
                 </Container>
               )}
             </Container>
           </Container>
-
           {!collapseStatus &&
             boardItems.map((boardItem) => {
               return (

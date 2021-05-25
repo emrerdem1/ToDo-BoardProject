@@ -5,6 +5,8 @@ import { Container, Button, ButtonGroup } from 'react-bootstrap';
 import { BoardStore, PriorityStore } from './BoardSections';
 import EditableInput from './Editable/EditableInput';
 
+const MAX_TASK_NAME_LENGTH = 40;
+
 const BoardItem = ({ boardItem, boardId }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -88,6 +90,7 @@ const BoardItem = ({ boardItem, boardId }) => {
             variant="outline-success"
             size="sm"
             onClick={() => doneBoardItem(boardItem)}
+            disabled={true}
           >
             <i className="fas fa-check-circle"></i>
           </Button>
@@ -126,6 +129,7 @@ const BoardItem = ({ boardItem, boardId }) => {
                 placeholder="Write a task name"
                 value={task}
                 onChange={handleNameChange(boardItem)}
+                maxLength={MAX_TASK_NAME_LENGTH}
               />
             </EditableInput>
           </Container>
