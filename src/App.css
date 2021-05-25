@@ -6,6 +6,7 @@
   min-height: 100vh;
   background-color: #142a566b;
   background-size: cover;
+  --sideMenuWidth: 150px;
 }
 
 .cards {
@@ -68,11 +69,10 @@
 }
 
 .homepage-board {
-  margin: 0 5px 15px 5px !important;
   background-color: #edeffd;
-  margin-right: 15px;
-  padding: 0 !important;
   border-radius: 10px;
+  min-width: 310px !important;
+  padding: 5px 0;
 }
 
 .board-item {
@@ -171,9 +171,13 @@
 }
 
 .boards-container {
-  width: calc(100% - 50px) !important;
-  margin: 0 10px 10px 10px !important;
-  padding: 10px;
+  width: calc(100% - var(--sideMenuWidth)) !important;
+  margin-left: var(--sideMenuWidth) !important;
+}
+
+.boards-row {
+  row-gap: 20px;
+  justify-content: center;
 }
 
 .navbar {
@@ -230,10 +234,6 @@ a {
 .nav-inactive:hover {
   text-decoration: none;
   color: #00000096;
-}
-
-.col-xl-3 {
-  max-width: 24% !important;
 }
 
 .board-item_defaults {
@@ -326,10 +326,6 @@ a {
 .title-input > div > input {
   text-transform: uppercase;
   text-align: center;
-}
-
-.boards-container > .row {
-  margin-left: 140px !important;
 }
 
 .boards-controller {
