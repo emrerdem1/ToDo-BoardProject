@@ -2,359 +2,360 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Raleway:wght@300&display=swap');
 
 #root {
-	display: flex;
-	min-height: 100vh;
-	background-color: #142a566b;
-	background-size: cover;
+  display: flex;
+  min-height: 100vh;
+  background-color: #142a566b;
+  background-size: cover;
 }
 
 .cards {
-	display: flex;
-	margin-top: 1rem;
+  display: flex;
+  margin-top: 1rem;
 }
 
 .card {
-	border: 1px solid black;
+  border: 1px solid black;
 }
 
 .App {
-	margin-top: 1rem;
-	text-align: center;
+  margin-top: 1rem;
+  text-align: center;
 }
 
 .App-logo {
-	height: 40vmin;
-	pointer-events: none;
+  height: 40vmin;
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.App-logo {
-		animation: App-logo-spin infinite 20s linear;
-	}
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }
 
 .App-header {
-	background-color: #282c34;
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	font-size: calc(10px + 2vmin);
-	color: white;
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
 .App-link {
-	color: #61dafb;
+  color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .cards {
-	display: flex;
-	margin-top: 1rem;
+  display: flex;
+  margin-top: 1rem;
 }
 
 .card {
-	border: 1px solid black;
-	width: 33%;
+  border: 1px solid black;
+  width: 33%;
 }
 
 .homepage-board {
-	margin: 0 5px 15px 5px !important;
-	background-color: #edeffd;
-	margin-right: 15px;
-	padding: 0 !important;
-	border-radius: 10px;
+  margin: 0 5px 15px 5px !important;
+  background-color: #edeffd;
+  margin-right: 15px;
+  padding: 0 !important;
+  border-radius: 10px;
 }
 
 .board-item {
-	margin: auto !important;
-	padding: 0;
-	border-radius: 10px;
-	background-color: white;
-	transition: all 0.5s ease-in-out;
-	padding-right: 10px !important;
-	padding-left: 10px !important;
-	margin-bottom: 10px !important;
-	width: 92% !important;
-	font-family: 'Balsamiq Sans', cursive;
-	font-size: 85%;
+  margin: auto !important;
+  padding: 0;
+  border-radius: 10px;
+  background-color: white;
+  transition: all 0.5s ease-in-out;
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+  margin-bottom: 10px !important;
+  width: 92% !important;
+  font-family: 'Balsamiq Sans', cursive;
+  font-size: 85%;
 }
 
 .board-item_false {
-	display: none;
+  display: none;
 }
 
 .board-item_nested {
-	width: 86% !important;
-	padding: 10px 0 0 0 !important;
-	margin-left: 0 !important;
+  width: 86% !important;
+  padding: 10px 0 0 0 !important;
+  margin-left: 0 !important;
 }
 
 .board-description {
-	position: relative;
-	min-height: 100px;
-	padding: 10px;
-	border-radius: 5px;
-	text-align: center;
-	display: 'flex';
-	justify-content: 'space-between';
-	transition: all 0.5s ease-in-out;
-	height: 160px !important;
-	margin: 20px 0 !important;
+  position: relative;
+  min-height: 100px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  display: 'flex';
+  justify-content: 'space-between';
+  transition: all 0.5s ease-in-out;
+  height: 160px !important;
+  margin: 20px 0 !important;
 }
 
 .collapseStatus_false {
-	height: 50px;
-	width: 150px !important;
+  height: 50px;
+  width: 150px !important;
 }
 
 .edit-delete-buttons {
-	position: absolute !important;
-	right: 10px;
-	height: 35px;
-	border: 0 !important;
-	height: 100px;
-	display: flex;
-	flex-direction: column;
-	margin-right: 5px;
+  position: absolute !important;
+  right: 10px;
+  height: 35px;
+  border: 0 !important;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 5px;
 }
 
 .edit-delete-buttons > .btn {
-	border-radius: 30px !important;
+  border-radius: 30px !important;
 }
 
 .user-board-input {
-	width: 68%;
-	display: flex;
-	justify-content: center;
-	margin-bottom: 10px;
-	padding: 0 !important;
-	min-width: 200px;
+  width: 68%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  padding: 0 !important;
+  min-width: 200px;
 }
 
 .board-item_nested--id {
-	width: 100% !important;
-	overflow: hidden;
-	border-bottom: 1px solid black;
-	padding: 0 0 5px 0 !important;
+  width: 100% !important;
+  overflow: hidden;
+  border-bottom: 1px solid black;
+  padding: 0 0 5px 0 !important;
 }
 
 .board-item_object {
-	padding-top: 10px;
+  padding-top: 10px;
 }
 
 .nav-inactive {
-	color: inherit;
-	text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
 .collapse-button {
-	width: 10px;
-	height: 10px;
+  width: 10px;
+  height: 10px;
 }
 
 .MuiPaper-root {
-	box-shadow: 0px 0px 0px 2000px rgba(0, 0, 0, 0.85) !important;
+  box-shadow: 0px 0px 0px 2000px rgba(0, 0, 0, 0.85) !important;
 }
 
 .collapse-height {
-	max-height: 100px !important;
+  max-height: 100px !important;
 }
 
 .boards-container {
-	width: calc(100% - 50px) !important;
-	margin: 0 10px 10px 10px !important;
-	padding: 10px;
+  width: calc(100% - 50px) !important;
+  margin: 0 10px 10px 10px !important;
+  padding: 10px;
 }
 
 .navbar {
-	height: inherit !important;
-	padding: 0 !important;
-	position: relative;
-	width: 150px;
-	background-color: #190f52 !important;
-	z-index: 10;
-	height: 100% !important;
+  height: inherit !important;
+  padding: 0 !important;
+  position: relative;
+  width: 150px;
+  background-color: #190f52 !important;
+  z-index: 10;
+  height: 100% !important;
 }
 
 .navbar-brand {
-	margin: 10px 0 0 0 !important;
-	padding: 10px !important;
-	line-height: 50px;
-	font-size: 110%;
+  margin: 10px 0 0 0 !important;
+  padding: 10px !important;
+  line-height: 50px;
+  font-size: 110%;
 }
 
 img {
-	margin-top: 10px;
-	width: 150px;
+  margin-top: 10px;
+  width: 70%;
+  padding: 15px 0px;
 }
 
 .navbar-nav {
-	margin: 0 !important;
-	width: 100%;
-	text-align: center;
+  margin: 0 !important;
+  width: 100%;
+  text-align: center;
 }
 
 .navbar-nav > .nav-link,
 a {
-	line-height: 60px;
-	text-decoration: none;
+  line-height: 60px;
+  text-decoration: none;
 }
 
 .navbar-nav > .nav-link:hover {
-	margin-left: 40px;
-	color: #00000096;
-	background-color: #9ca5b8;
-	background-size: cover;
-	border-radius: 13% 87% 0% 100% / 69% 7% 93% 31%;
+  margin-left: 40px;
+  color: #00000096;
+  background-color: #9ca5b8;
+  background-size: cover;
+  border-radius: 13% 87% 0% 100% / 69% 7% 93% 31%;
 }
 
 .nav-link {
-	transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
 }
 
 .nav-inactive {
-	display: block;
+  display: block;
 }
 
 .nav-inactive:hover {
-	text-decoration: none;
-	color: #00000096;
+  text-decoration: none;
+  color: #00000096;
 }
 
 .col-xl-3 {
-	max-width: 24% !important;
+  max-width: 24% !important;
 }
 
 .board-item_defaults {
-	color: #00000096;
+  color: #00000096;
 }
 
 .fas {
-	font-size: 25px;
+  font-size: 25px;
 }
 
 .collapse-button {
-	position: relative;
-	width: 25px;
-	border: 0 !important;
-	height: 25px;
-	text-align: center;
+  position: relative;
+  width: 25px;
+  border: 0 !important;
+  height: 25px;
+  text-align: center;
 }
 
 .fa-compress-arrows-alt {
-	font-size: 20px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	text-align: center;
-	margin: auto;
-	padding: 2px;
+  font-size: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  margin: auto;
+  padding: 2px;
 }
 
 .fa-edit,
 .fa-trash-alt,
 .fa-check-circle {
-	font-size: 15px;
-	position: absolute;
-	bottom: 6px;
-	left: 50%;
-	transform: translateX(-50%);
+  font-size: 15px;
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .btn-edit,
 .btn-del,
 .btn-outline-success {
-	border-radius: 50% !important;
-	height: 30px;
-	width: 30px;
+  border-radius: 50% !important;
+  height: 30px;
+  width: 30px;
 }
 
 .MuiIcon-root {
-	font-size: 20px !important;
+  font-size: 20px !important;
 }
 
 .user-board-input > section {
-	width: 100%;
+  width: 100%;
 }
 
 .center-listview {
-	margin: 0 auto 15px auto !important;
+  margin: 0 auto 15px auto !important;
 }
 
 .MuiButtonBase-root {
-	padding: 0;
-	width: 25px;
+  padding: 0;
+  width: 25px;
 }
 
 .del-and-edit_buttons {
-	position: absolute;
-	bottom: 10px;
-	left: 0;
-	padding: 0 !important;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  padding: 0 !important;
 }
 
 .del-and-edit_buttons > button {
-	font-size: 75%;
-	white-space: nowrap;
+  font-size: 75%;
+  white-space: nowrap;
 }
 
 .title-input {
-	font-family: 'Anton', sans-serif;
+  font-family: 'Anton', sans-serif;
 }
 
 .title-input > div {
-	letter-spacing: 1px;
-	text-transform: uppercase;
-	filter: drop-shadow(0 0 20px #4444dd);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  filter: drop-shadow(0 0 20px #4444dd);
 }
 
 .div_clicked {
-	filter: drop-shadow(0 0 0 #4444dd) !important;
+  filter: drop-shadow(0 0 0 #4444dd) !important;
 }
 
 .title-input > div > input {
-	text-transform: uppercase;
-	text-align: center;
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .boards-container > .row {
-	margin-left: 140px !important;
+  margin-left: 140px !important;
 }
 
 .boards-controller {
-	text-align: end;
+  text-align: end;
 }
 
 .sort-class {
-	font-size: 75%;
-	white-space: nowrap;
+  font-size: 75%;
+  white-space: nowrap;
 }
 
 .MuiInputLabel-root {
-	width: 100% !important;
+  width: 100% !important;
 }
 
 .MuiSelect-selectMenu {
-	font-size: 85% !important;
+  font-size: 85% !important;
 }
 
 .center-listview > div {
-	height: 90% !important;
+  height: 90% !important;
 }
 
 .sortIcon:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 .sort-class > .container {
-	width: auto;
+  width: auto;
 }
